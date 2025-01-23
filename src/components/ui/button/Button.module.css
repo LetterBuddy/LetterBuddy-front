@@ -1,0 +1,30 @@
+.button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: none;
+    width: 28rem;
+    height: 4rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    font-weight: bolder;
+    font-size: 1.5rem;
+    font-family: 'Jost', sans-serif;
+    white-space: nowrap;
+    margin-top: 1rem;
+}
+
+/* Variation with white background */
+.buttonWhite {
+    background-color: white;
+    color: var(--text-brown);
+    font-size: 1.4rem;
+    border: solid 0.15rem var(--text-brown);
+}
+
+/* media query */
+@media (max-width: 576px) {
+    .button {
+        width: 20rem;
+        height: 4rem;    
+    }
+}
