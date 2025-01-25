@@ -2,8 +2,9 @@
 
 ### 🚀 Getting started
 
-1. Clone the Repository
+#### Clone the Repository
 Run the following command in your terminal to clone the repository:
+
 `git clone https://github.com/LetterBuddy/LetterBuddy-front.git`
 
 ### Install Dependencies:
