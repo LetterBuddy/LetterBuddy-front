@@ -2,12 +2,6 @@
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  
   --primary-color: #EFE5DA;
   --secondary-color: #2A004E;
   --items-color: #FBF5E5;
@@ -19,4 +13,5 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Jost', sans-serif;
+  background-color: var(--primary-color);
 }

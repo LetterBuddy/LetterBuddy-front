@@ -9,9 +9,9 @@ type LayoutProps = {
 
 const Layout = (props: LayoutProps) => {
   return (
-    <Fragment>
+    <Fragment >
       <Head />
-      {/* <main>{props.children}</main> */}
+      <main>{props.children}</main>
     </Fragment>
   );
 };
