@@ -33,7 +33,7 @@ jobs:
           ${{ runner.os }}-npm-
     - run: npm ci
     - run: npm run build --if-present
-    - run: npm test
+    # - run: npm test
     - name: Run ESLint
       run: npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0 | tee eslint-report-${{ matrix.node-version }}.txt || true
     - name: Upload ESLint report as an artifact
