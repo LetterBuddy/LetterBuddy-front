@@ -13,5 +13,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Jost', sans-serif;
+  
   background-color: var(--primary-color);
+  margin-bottom: 2rem;
 }

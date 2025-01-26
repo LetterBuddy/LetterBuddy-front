@@ -1,15 +1,16 @@
+// import React from 'react';
 import Button from '../components/ui/button/Button';
 import Label from '../components/ui/label/Label';
-import React from 'react';
 import myPen from '../assets/myPen.gif';
 import EntryLayout from '../components/layouts/entryLayout/EntryLayout';
 
 const SplashPage = () => {
 
-    const [isClicked, setIsClicked] = React.useState<boolean>(false);
+    // const [isClicked, setIsClicked] = React.useState<boolean>(false);
 
     const toggleButtonHandler = () => {
-      setIsClicked((oldState) => !oldState);
+        // Handle the choice here
+
     };
     return (
         <EntryLayout>
