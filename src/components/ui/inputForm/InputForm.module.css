@@ -1,0 +1,13 @@
+.inputForm {
+  width: 25rem;
+  height: 1rem;
+  margin: 1rem 0;
+  border-radius: 1rem;
+  border: none;
+  outline: none;
+  padding: 1rem;
+  font-size: 1.2rem;
+  font-family: 'Jost', sans-serif;
+  font-weight: bold;
+  color: var(--text-brown-opacity);
+}

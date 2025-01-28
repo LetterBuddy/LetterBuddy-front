@@ -6,6 +6,7 @@
   --secondary-color: #2A004E;
   --items-color: #FBF5E5;
   --text-brown: #7E675E;
+  --text-brown-opacity: rgba(126, 103, 94, 0.7);
   --auth-toggle-color: #770737;
 
   font-synthesis: none;
