@@ -1,10 +1,10 @@
 import EntryLayout from "../components/layouts/entryLayout/EntryLayout";
-import SignUp from "../components/auth/SignUp";
+import AuthForm from "../components/auth/AuthForm";
 
 const AuthPage = () => {
   return (
     <EntryLayout>
-      <SignUp />
+      <AuthForm />
     </EntryLayout>
   );
 };
