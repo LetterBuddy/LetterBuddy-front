@@ -10,6 +10,8 @@ const UserTypeButtons = () => {
 
   const userTypeHandler = (type: "adult" | "child") => {
     setUserType(type);
+    console.log(userType);
+    
     navigate("/auth");
   };
 
