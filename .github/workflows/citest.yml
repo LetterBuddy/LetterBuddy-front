@@ -32,12 +32,12 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-npm-
     - run: npm ci
-    - run: npm run build --if-present
     # - run: npm test
     - name: Run ESLint
-      run: npx eslint . --ext .js,.jsx,.ts,.tsx --max-warnings=0 | tee eslint-report-${{ matrix.node-version }}.txt || true
+      run: npx eslint "**/*.{js,jsx,ts,tsx}" | tee eslint-report-${{ matrix.node-version }}.txt || true
     - name: Upload ESLint report as an artifact
       uses: actions/upload-artifact@v4
       with:
         name: eslint-report-${{ matrix.node-version }}
         path: eslint-report-${{ matrix.node-version }}.txt
+    - run: npm run build --if-present
