@@ -38,10 +38,10 @@ const AuthForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={classes.AuthForm}>
-      <Label>{isSignUp ? "Sign Up" : "Log In"}</Label>
+      <Label color="#7E675E">{isSignUp ? "Sign Up" : "Log In"}</Label>
 
       <div className={classes.AuthToggle}>
-        <p>{isSignUp ? "Already have an account?" : "Don't have an account?"}</p>
+        <p>{isSignUp ? "Already have an account?" : "Didn’t signed in yet?"}</p>
         <button type="button" onClick={() => setIsSignUp(!isSignUp)}>
           {isSignUp ? "Log In" : "Sign Up"}
         </button>
@@ -51,19 +51,27 @@ const AuthForm = () => {
         <>
           <InputForm type="email" placeholder="Email" {...register("Email")} />
         </>
+        
       )}
-
-      <InputForm type="text" placeholder="User Name" {...register("UserName")} />
+      <InputForm
+        type="text"
+        placeholder="User Name"
+        {...register("UserName")}
+      />
       {errors?.UserName && <span>{errors.UserName.message}</span>}
 
-      <InputForm type="password" placeholder="Password" {...register("Password")} />
+      <InputForm
+        type="password"
+        placeholder="Password"
+        {...register("Password")}
+      />
       {errors?.Password && <span>{errors.Password.message}</span>}
 
-      <Button type="submit" variant="default">{isSignUp ? "Sign Up" : "Log In"}</Button>
+      <Button type="submit" variant="default">
+        {isSignUp ? "Sign Up" : "Log In"}
+      </Button>
     </form>
   );
 };
-
-
 
 export default AuthForm;

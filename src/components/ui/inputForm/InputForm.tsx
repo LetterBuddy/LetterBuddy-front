@@ -2,7 +2,6 @@ import React from "react";
 import classes from "./InputForm.module.css";
 
 interface InputFormProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  icon?: React.ReactNode;
 }
 
 const InputForm = React.forwardRef<HTMLInputElement, InputFormProps>(

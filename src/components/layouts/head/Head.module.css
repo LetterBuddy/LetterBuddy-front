@@ -1,9 +1,9 @@
 .header {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: space-between; 
   align-items: center; 
   height: 4rem; 
-  padding: 0 1.5rem;
+  padding: 1rem 2rem;
   box-sizing: border-box; 
   margin-bottom: 2rem;
 }
@@ -14,3 +14,14 @@
     font-size: 2rem;
   }
 
+.icon {
+    color: var(--secondary-color);
+    cursor: pointer;
+  }
+
+  /* media query */
+  @media (max-width: 576px) {
+    .header {
+        padding: 0.5rem;
+    }
+  }

@@ -11,10 +11,12 @@
   font-weight: bold;
 }
 
+
 /* media query */
 
 @media (max-width: 576px) {
   .inputForm {
     width: 18rem;
+    font-size: 1rem;
   }
 }

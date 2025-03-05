@@ -2,10 +2,11 @@ import React from "react";
 import classes from "./Button.module.css";
 
 const Button: React.FC<{
-  type?: "button" | "submit"
+  type?: "button" | "submit";
   onClick?: (event: React.FormEvent) => void;
   children: string;
   variant?: "default" | "white";
+  style?: React.CSSProperties; // Add style prop
 }> = (props) => {
   const buttonClasses =
     props.variant === "white"
@@ -17,6 +18,7 @@ const Button: React.FC<{
       type={props.type || "button"} 
       onClick={props.onClick} 
       className={buttonClasses}
+      style={props.style} // Apply style prop
     >
       {props.children}
     </button>

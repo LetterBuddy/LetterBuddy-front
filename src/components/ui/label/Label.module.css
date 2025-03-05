@@ -5,3 +5,10 @@
     font-weight: bolder;
     margin: 0 0.5rem;
 }
+
+/* media query */
+@media (max-width: 576px) {
+    .label {
+        font-size: 1.2rem;
+    }
+}
