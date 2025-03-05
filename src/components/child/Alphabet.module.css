@@ -1,0 +1,26 @@
+.Alphabet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+}
+.Alphabet div {
+    margin: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.Alphabet div img {
+    width: 15rem;
+}
+
+/* media query */
+@media (max-width: 768px) {
+    .Alphabet div {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .Alphabet div img {
+        width: 14rem;
+    }
+}
