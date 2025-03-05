@@ -1,0 +1,29 @@
+.submission div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.5rem;
+  background-color: var(--items-color);
+  margin: 1.5rem;
+  width: 32rem;
+  min-height: 7rem;
+  border-radius: 5%;
+  color: var(--secondary-color);
+  font-weight: 600;
+  font-size: 110%;
+  box-shadow: 0 0.2rem 0.5rem 0 rgba(96, 70, 102, 0.5);
+}
+
+.submission div section {
+  justify-content: space-around;
+  display: flex;
+  width: 100%;
+}
+
+/* media query */
+@media (max-width: 576px) {
+  .submission div {
+    width: 19rem;
+  }
+}
