@@ -1,0 +1,89 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.searchContainer {
+  display: flex;
+  max-width: 18rem;
+}
+
+.table {
+  width: 60rem;
+  border-collapse: collapse;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+}
+
+.actionsColumn {
+  display: flex;
+  justify-content: center;
+}
+
+.table th {
+  background-color: var(--items-color);
+  padding: 1rem;
+  color: var(--secondary-color);
+}
+
+.table td {
+  padding: 1rem;
+  font-weight: 650;
+  color: var(--secondary-color);
+}
+
+.sortButton {
+  display: flex;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--secondary-color);
+}
+
+.emptyState {
+  height: 6rem;
+  text-align: center;
+}
+
+.rowEven {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.badge {
+  align-items: center;
+  justify-content: center;
+  border-radius: 15%;
+  padding: 0.125rem 0.5rem;
+  color: var(--primary-color);
+}
+
+.scoreBadgeHigh {
+  background-color: #22c55e;
+}
+
+.scoreBadgeMedium {
+  background-color: #eab308;
+}
+
+.scoreBadgeLow {
+  background-color: #ef4444;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .table td {
+    padding: 0.5rem;
+  }
+
+  .table {
+    width: 25rem;
+  }
+}
