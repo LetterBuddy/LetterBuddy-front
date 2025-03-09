@@ -19,6 +19,11 @@
     cursor: pointer;
   }
 
+.icon:hover {
+  scale: 1.15;
+  transition: all 0.5s ease;
+  }
+
   /* media query */
   @media (max-width: 576px) {
     .header {

@@ -6,12 +6,12 @@
   padding: 0.5rem;
   background-color: var(--items-color);
   margin: 1.5rem 0;
-  width: 32rem;
-  min-height: 7rem;
+  width: 40rem;
+  min-height: 8rem;
   border-radius: 5%;
   color: var(--secondary-color);
   font-weight: 600;
-  font-size: 110%;
+  font-size: 1.2rem;
   box-shadow: 0 0.2rem 0.5rem 0 rgba(96, 70, 102, 0.5);
 }
 

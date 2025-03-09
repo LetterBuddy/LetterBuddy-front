@@ -1,4 +1,4 @@
-import EntryLayout from "../components/layouts/entryLayout/EntryLayout";
+import EntryLayout from "../components/layouts/EntryLayout";
 import AuthForm from "../components/auth/AuthForm";
 
 const AuthPage = () => {

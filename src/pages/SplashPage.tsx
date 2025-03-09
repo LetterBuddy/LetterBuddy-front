@@ -1,19 +1,22 @@
-//import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/ui/button/Button';
 import Label from '../components/ui/label/Label';
 import myPen from '../assets/myPen.gif';
-import EntryLayout from '../components/layouts/entryLayout/EntryLayout';
+import EntryLayout from '../components/layouts/EntryLayout';
+import useAuthStore from '../store/useAuthStore';
 
 const SplashPage = () => {
     const navigate = useNavigate();
+    const setIsSignUp = useAuthStore((state) => state.setIsSignUp);
 
     const getStartedHandler = () => {
+        setIsSignUp(true);
         navigate('/userType');
     };
 
     const alreadyHasAccountHandler = () => {
-        // Handle the choice here
+        setIsSignUp(false);
+        navigate('/auth');
     };
 
     return (

@@ -1,12 +1,12 @@
-import EntryLayout from "../components/layouts/entryLayout/EntryLayout";
+import EntryLayout from "../components/layouts/EntryLayout";
 import Submission from "../components/child/Submission";
 
 const SubmissionPage = () => {
-    return (
-        <EntryLayout>
-            <Submission/>
-        </EntryLayout>
-    )
-}
+  return (
+    <EntryLayout>
+      <Submission />
+    </EntryLayout>
+  );
+};
 
 export default SubmissionPage;
