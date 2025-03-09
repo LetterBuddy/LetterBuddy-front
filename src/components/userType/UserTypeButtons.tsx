@@ -1,23 +1,29 @@
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import classes from "./UserTypeButtons.module.css";
 import animatedChild from "../../assets/Cartoon-Child.svg";
 import animatedParent from "../../assets/Cartoon-Adult.svg";
+import useAuthStore from "../../store/useAuthStore";
 
 const UserTypeButtons = () => {
   const navigate = useNavigate();
-  const [userType, setUserType] = useState<"adult" | "child" | "">("");
+  const setUserType = useAuthStore((state) => state.setIsChild);
+  const setIsSignUp = useAuthStore((state) => state.setIsSignUp);
 
-  const userTypeHandler = (type: "adult" | "child") => {
-    setUserType(type);
+  const handleChildSelection = () => {
+    setUserType(true);
+    setIsSignUp(false);
     navigate("/auth");
-    console.log(userType);
   };
+
+  const handleAdultSelection = () => {
+    setUserType(false);
+    setIsSignUp(true);
+    navigate("/auth");
+  }
 
   return (
     <div className={classes.UserTypeButtons}>
-      <button
-        onClick={() => userTypeHandler("adult")}>
+      <button onClick={handleAdultSelection}>
         <img
           src={animatedParent}
           alt="Animated Parent"
@@ -25,8 +31,7 @@ const UserTypeButtons = () => {
         />
         Adult
       </button>
-      <button
-      onClick={() => userTypeHandler("child")}>
+      <button onClick={handleChildSelection}>
         <img
           src={animatedChild}
           alt="Animated Child"
