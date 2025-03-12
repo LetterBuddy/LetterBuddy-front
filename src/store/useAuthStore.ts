@@ -6,12 +6,10 @@ const useAuthStore = create(
     {
       isSignUp: false,
       isChild: false,
-      isAuthenticated: false,
     },
     (set) => ({
       setIsSignUp: (isSignUp: boolean) => set({ isSignUp }),
       setIsChild: (isChild: boolean) => set({ isChild }),
-      setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
     })
   )
 );

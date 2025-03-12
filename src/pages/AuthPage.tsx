@@ -1,10 +1,13 @@
 import EntryLayout from "../components/layouts/EntryLayout";
-import AuthForm from "../components/auth/AuthForm";
+import useAuthStore from "../store/useAuthStore";
+import SignUp from "../components/auth/SignUp";
+import Login from "../components/auth/Login";
 
 const AuthPage = () => {
+  const isSignUp = useAuthStore((state) => state.isSignUp);
   return (
     <EntryLayout>
-      <AuthForm />
+      {isSignUp ? <SignUp /> : <Login />}
     </EntryLayout>
   );
 };
