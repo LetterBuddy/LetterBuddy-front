@@ -37,7 +37,7 @@ const Login = () => {
       localStorage.setItem("refresh_token", response.data.refresh);
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
-      setError(error.response.data.detail);
+      setError("Invalid username or password");
     }
   };
 
@@ -62,6 +62,7 @@ const Login = () => {
         {...register("password")}
       />
       {errors?.password && <span>{errors.password.message}</span>}
+      {error && <span>{error}</span>}
       <Button type="submit" variant="default">
         Log In
       </Button>

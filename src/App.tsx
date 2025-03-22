@@ -9,6 +9,7 @@ const AuthPage = lazy(() => import('./pages/AuthPage'));
 const SubmissionPage = lazy(() => import('./pages/SubmissionPage'));
 const AlphabetPage = lazy(() => import('./pages/AlphabetPage'));
 const SubmissionsTablePage = lazy(() => import('./pages/SubmissionsTablePage'));
+const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/submission" element={<SubmissionPage />} />
             <Route path="/alphabet" element={<AlphabetPage />} />
             <Route path="/table" element={<SubmissionsTablePage />} />
+            <Route path="/articles" element={<ArticlesPage />} />
             <Route path="/" element={<Navigate to="/splash" />} />
           </Routes>
       </Layout>

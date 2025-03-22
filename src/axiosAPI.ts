@@ -1,16 +1,20 @@
 import axios from "axios";
 const baseURL = import.meta.env.VITE_APP_API_URL;
 
+
 const axiosAPI = axios.create({
   baseURL: baseURL,
   timeout: 5000,
   headers: {
-    Authorization: localStorage.getItem("access_token")
-      ? localStorage.getItem("access_token")
-      : null,
     "Content-Type": "application/json",
-    accept: "application/json",
   },
+});
+
+axiosAPI.interceptors.request.use((config) => {
+  const accessToken = localStorage.getItem("access_token");
+  if (accessToken)
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  return config;
 });
 
 axiosAPI.interceptors.response.use(

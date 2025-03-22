@@ -6,6 +6,7 @@ type LayoutProps = {
 
 const EntryLayout = (props: LayoutProps) => {
   return (
+    
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
