@@ -6,7 +6,7 @@ const Button: React.FC<{
   onClick?: (event: React.FormEvent) => void;
   children: string;
   variant?: "default" | "white";
-  style?: React.CSSProperties; // Add style prop
+  style?: React.CSSProperties;
 }> = (props) => {
   const buttonClasses =
     props.variant === "white"
@@ -18,7 +18,7 @@ const Button: React.FC<{
       type={props.type || "button"} 
       onClick={props.onClick} 
       className={buttonClasses}
-      style={props.style} // Apply style prop
+      style={props.style} 
     >
       {props.children}
     </button>

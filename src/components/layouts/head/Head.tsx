@@ -1,9 +1,8 @@
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IconAbc, IconHome } from '@tabler/icons-react';
 import classes from './Head.module.css';
 
-const Head: React.FC = () => {
+const Head = () => {
   const location = useLocation(); 
   const navigate = useNavigate(); 
 
