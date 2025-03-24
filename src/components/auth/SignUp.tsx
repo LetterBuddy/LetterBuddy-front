@@ -6,7 +6,7 @@ import Button from "../ui/button/Button";
 import InputForm from "../ui/inputForm/InputForm";
 import classes from "./AuthForm.module.css";
 import useAuthStore from "../../store/useAuthStore";
-import axios from "../../axiosAPI";
+import axiosAPI from "../../axiosAPI";
 
 const signUpSchema = z.object({
   email: z.string().email("Email is required"),
@@ -32,7 +32,7 @@ const SignUp = () => {
 
   const signUpHandler = async (data: SignUpFormInput) => {
     try {
-      const response = await axios.post("/accounts/adult/", data);
+      const response = await axiosAPI.post("/accounts/adult/", data);
       console.log("Sign Up Successful", response);
     } catch (error: any) {
       console.log("Sign Up Failed", error.response.data);

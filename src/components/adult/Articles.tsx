@@ -2,7 +2,7 @@ import {useEffect, useState } from 'react';
 
 import Label from '../ui/label/Label';
 import classes from './Articles.module.css';
-import axios from "../../axiosAPI";
+import axiosAPI from "../../axiosAPI";
 
 const Articles = () => {
     interface Article {
@@ -15,7 +15,7 @@ const Articles = () => {
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const response = await axios.get("/exercises/articles/");
+                const response = await axiosAPI.get("/exercises/articles/");
                 setArticles(response.data);
                 console.log(response);
             }

@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/layouts/Layout';
+import useUserStore from './store/useUserStore';
 
 // Lazy load pages to optimize performance
 const SplashPage = lazy(() => import('./pages/SplashPage'));
@@ -11,7 +12,13 @@ const AlphabetPage = lazy(() => import('./pages/AlphabetPage'));
 const SubmissionsTablePage = lazy(() => import('./pages/SubmissionsTablePage'));
 const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
 
+
+
+
+
 function App() {
+  const isChild = useUserStore(state => state.isChild);
+  const isLoggedIn = useUserStore(state => state.isLoggedIn); 
   return (
     <div>
       <Layout>
@@ -19,11 +26,11 @@ function App() {
             <Route path="/splash" element={<SplashPage />} />
             <Route path="/userType" element={<UserTypePage />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/submission" element={<SubmissionPage />} />
-            <Route path="/alphabet" element={<AlphabetPage />} />
-            <Route path="/table" element={<SubmissionsTablePage />} />
-            <Route path="/articles" element={<ArticlesPage />} />
-            <Route path="/" element={<Navigate to="/splash" />} />
+            <Route path="/submission" element={(isChild && isLoggedIn) ? <SubmissionPage /> : <Navigate to="/splash" />} />
+            <Route path="/alphabet" element={(isChild && isLoggedIn) ? <AlphabetPage /> : <Navigate to="/splash" />}/>
+            <Route path="/table" element={(!isChild && isLoggedIn) ? <SubmissionsTablePage /> : <Navigate to="/splash" />} />
+            <Route path="/articles" element={(!isChild && isLoggedIn) ? <ArticlesPage /> : <Navigate to="/splash" />} />
+            <Route path="*" element={<Navigate to="/splash" />} />
           </Routes>
       </Layout>
     </div>
