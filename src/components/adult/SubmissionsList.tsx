@@ -115,7 +115,7 @@ const SubmissionsList = ({
               <td className={classes.actionsColumn}>
                 <Button
                   style={{
-                    width: "6rem",
+                    width: "5rem",
                     height: "2rem",
                     fontSize: "0.8rem",
                     margin: "0",
