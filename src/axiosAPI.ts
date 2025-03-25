@@ -1,7 +1,6 @@
 import axios from "axios";
 const baseURL = import.meta.env.VITE_APP_API_URL;
 
-
 const axiosAPI = axios.create({
   baseURL: baseURL,
   timeout: 5000,
@@ -12,14 +11,13 @@ const axiosAPI = axios.create({
 
 axiosAPI.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("access_token");
-  if (accessToken)
-    config.headers.Authorization = `Bearer ${accessToken}`;
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
 
 axiosAPI.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
     const originalRequest = error.config;
 
     // Prevent infinite loops early
@@ -32,46 +30,78 @@ axiosAPI.interceptors.response.use(
     // }
 
     if (
-      error.response.data.code === "token_not_valid" &&
-      error.response.status === 401 &&
-      error.response.statusText === "Unauthorized"
+      error.response?.status === 401 &&
+      error.response?.config?.url === "/accounts/token/refresh/"
     ) {
-      const refreshToken = localStorage.getItem("refresh_token");
+      window.location.href = "/splash/";
+      return Promise.reject(error);
+    }
 
-      if (refreshToken) {
-        // TODO: check tokenParts extracted successfully
-        const tokenParts = JSON.parse(atob(refreshToken.split(".")[1]));
+    if (
+      error.response?.data?.code === "token_not_valid" &&
+      error.response?.status === 401 &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true;
+      try {
+        const res = await axios.post("/accounts/token/refresh/", null, {
+          withCredentials: true,
+        });
 
-        // exp date in token is expressed in seconds, while now() returns milliseconds:
-        const now = Math.ceil(Date.now() / 1000);
-        console.log(tokenParts.exp);
+        const newAccessToken = res.data.access;
+        localStorage.setItem("access_token", newAccessToken);
 
-        if (tokenParts.exp > now) {
-          return axiosAPI
-            .post("/accounts/token/refresh/", { refresh: refreshToken })
-            .then((response) => {
-              localStorage.setItem("access_token", response.data.access);
-              localStorage.setItem("refresh_token", response.data.refresh);
+        // Update headers
+        axios.defaults.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-              axiosAPI.defaults.headers["Authorization"] = response.data.access;
-              originalRequest.headers["Authorization"] = response.data.access;
-
-              return axiosAPI(originalRequest);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          console.log("Refresh token is expired", tokenParts.exp, now);
-          window.location.href = "/splash/";
-        }
-      } else {
-        console.log("Refresh token not available.");
+        // Retry the original request
+        return axiosAPI(originalRequest);
+      } catch (err) {
+        console.log("Refresh token expired or invalid");
         window.location.href = "/splash/";
+        return Promise.reject(err);
       }
     }
     return Promise.reject(error);
   }
 );
+
+//     const refreshToken = localStorage.getItem("refresh_token");
+
+//     if (refreshToken) {
+//       // TODO: check tokenParts extracted successfully
+//       const tokenParts = JSON.parse(atob(refreshToken.split(".")[1]));
+
+//       // exp date in token is expressed in seconds, while now() returns milliseconds:
+//       const now = Math.ceil(Date.now() / 1000);
+//       console.log(tokenParts.exp);
+
+//       if (tokenParts.exp > now) {
+//         return axiosAPI
+//           .post("/accounts/token/refresh/", { refresh: refreshToken })
+//           .then((response) => {
+//             localStorage.setItem("access_token", response.data.access);
+//             // localStorage.setItem("refresh_token", response.data.refresh);
+
+//             axiosAPI.defaults.headers["Authorization"] = response.data.access;
+//             originalRequest.headers["Authorization"] = response.data.access;
+
+//             return axiosAPI(originalRequest);
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//       } else {
+//         console.log("Refresh token is expired", tokenParts.exp, now);
+//         window.location.href = "/splash/";
+//       }
+//     } else {
+//       console.log("Refresh token not available.");
+//       window.location.href = "/splash/";
+//     }
+//   }
+//   return Promise.reject(error);
+// }
 
 export default axiosAPI;

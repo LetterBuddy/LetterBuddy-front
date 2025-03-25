@@ -17,9 +17,9 @@ const useUserStore = create<UserStore>() (
         lastName: "",
         isChild: false,
         isLoggedIn: false,
-        userLogin: (firstName, lastName, isChild) => set(() => ({ firstName, lastName, isChild, isLoggedIn: true })),
-        clearUser: () => set(() => ({ firstName: "", lastName: "", isChild: false, isLoggedIn: false })),
-        gerUser: () => get(),
+        userLogin: (firstName, lastName, isChild) => set(() => ({ firstName, lastName, isChild, isLoggedIn: true})),
+        clearUser: () => set(() => ({ firstName: "", lastName: "", isChild: false, isLoggedIn: false})),
+        getUser: () => get(),
       }),
       {
         name: "user-info",
