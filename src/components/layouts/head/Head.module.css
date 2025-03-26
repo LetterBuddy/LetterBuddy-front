@@ -1,6 +1,6 @@
 .header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center; 
   height: 4rem; 
   padding: 1rem 2rem;
@@ -12,6 +12,13 @@
     color: var(--secondary-color);
     font-weight: bolder;
     font-size: 2rem;
+  }
+
+.icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 5.5rem;
   }
 
 .icon {
