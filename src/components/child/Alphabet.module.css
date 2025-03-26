@@ -12,15 +12,18 @@
 }
 
 .Alphabet div img {
-    width: 15rem;
+    width: 14rem;
 }
 
 /* media query */
+@media (max-width: 1024px) {
+    .Alphabet div {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 @media (max-width: 768px) {
     .Alphabet div {
         grid-template-columns: repeat(1, 1fr);
     }
-    .Alphabet div img {
-        width: 14rem;
-    }
+
 }
