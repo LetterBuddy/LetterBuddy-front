@@ -11,26 +11,28 @@ const SubmissionPage = lazy(() => import('./pages/SubmissionPage'));
 const AlphabetPage = lazy(() => import('./pages/AlphabetPage'));
 const SubmissionsTablePage = lazy(() => import('./pages/SubmissionsTablePage'));
 const ArticlesPage = lazy(() => import('./pages/ArticlesPage'));
+const ChildAccountsPage = lazy(() => import('./pages/ChildAccountsPage'));
 
 
 
-
-
-function App() {
+const App = () => {
   const isChild = useUserStore(state => state.isChild);
   const isLoggedIn = useUserStore(state => state.isLoggedIn); 
+  const defaultPath = isChild ? "/submission" : "/accounts";
   return (
     <div>
       <Layout>
           <Routes>
-            <Route path="/splash" element={<SplashPage />} />
-            <Route path="/userType" element={<UserTypePage />} />
-            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/splash" element={!isLoggedIn ? <SplashPage /> : <Navigate to={defaultPath} />}/>
+            <Route path="/userType" element={!isLoggedIn ? <UserTypePage /> : <Navigate to={defaultPath} />}/>
+            <Route path="/auth" element={!isLoggedIn ? <AuthPage /> : <Navigate to={defaultPath} />}/>
             <Route path="/submission" element={(isChild && isLoggedIn) ? <SubmissionPage /> : <Navigate to="/splash" />} />
             <Route path="/alphabet" element={(isChild && isLoggedIn) ? <AlphabetPage /> : <Navigate to="/splash" />}/>
             <Route path="/table" element={(!isChild && isLoggedIn) ? <SubmissionsTablePage /> : <Navigate to="/splash" />} />
             <Route path="/articles" element={(!isChild && isLoggedIn) ? <ArticlesPage /> : <Navigate to="/splash" />} />
-            <Route path="*" element={<Navigate to="/splash" />} />
+            <Route path="/accounts" element={(!isChild && isLoggedIn) ? <ChildAccountsPage /> : <Navigate to="/splash" />} />
+            <Route path="*" element={!isLoggedIn ? <Navigate to="/splash" /> : 
+                                      isChild ? <Navigate to="/submission"/> : <Navigate to="/accounts"/> } />
           </Routes>
       </Layout>
     </div>

@@ -9,6 +9,8 @@ import useAuthStore from "../../store/useAuthStore";
 import useUserStore from "../../store/useUserStore";
 import axiosAPI from "../../axiosAPI";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -18,10 +20,12 @@ const loginSchema = z.object({
 type LoginFormInput = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const navigate = useNavigate();
   const setIsSignUp = useAuthStore((state) => state.setIsSignUp);
   const isChild = useAuthStore((state) => state.isChild);
   const userLogin = useUserStore((state) => state.userLogin);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -34,14 +38,17 @@ const Login = () => {
   const loginHandler = async (data: LoginFormInput) => {
     try {
       console.log("Logging in...", data);
+      setIsLoading(true);
       const response = await axiosAPI.post("/accounts/login/", data);
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
       userLogin(response.data.first_name, response.data.last_name, isChild);
+      isChild ? navigate("/submission") : navigate("/accounts");
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
       setError("Invalid username or password");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -66,9 +73,9 @@ const Login = () => {
       />
       {errors?.password && <span>{errors.password.message}</span>}
       {error && <span>{error}</span>}
-      <Button type="submit" variant="default">
+      {!isLoading ? <Button type="submit" variant="default">
         Log In
-      </Button>
+      </Button> : <ClipLoader color="#7E675E" />}
     </form>
   );
 };
