@@ -1,13 +1,7 @@
 import { format } from "date-fns";
 import Button from "../ui/button/Button";
 import classes from "./SubmissionsTable.module.css";
-
-type HandwritingSubmission = {
-  id: string;
-  date: Date;
-  word: string;
-  score: number;
-};
+import { HandwritingSubmission } from "./SubmissionsTable";
 
 type SubmissionsListProps = {
   sortedData: HandwritingSubmission[];
@@ -61,6 +55,7 @@ const SubmissionsList = ({
     <table className={classes.table}>
       <thead>
         <tr>
+          <th>Type</th>
           <th>
             <SortableHeader
               label="Date"
@@ -71,8 +66,8 @@ const SubmissionsList = ({
           </th>
           <th>
             <SortableHeader
-              label="Word"
-              sortKey="word"
+              label="Exercise"
+              sortKey="exercise"
               handleSort={handleSort}
               sortConfig={sortConfig}
             />
@@ -101,8 +96,9 @@ const SubmissionsList = ({
               key={submission.id}
               className={index % 2 === 0 ? classes.rowEven : ''}
             >
+              <td>{submission.type}</td>
               <td>{format(submission.date, "MMM dd, yyyy")}</td>
-              <td>{submission.word}</td>
+              <td>{submission.exercise}</td>
               <td>
                 <span
                   className={`${classes.badge} ${getScoreBadgeClass(
@@ -112,7 +108,7 @@ const SubmissionsList = ({
                   {submission.score}%
                 </span>
               </td>
-              <td className={classes.actionsColumn}>
+              <td style={{padding: "0"}}>
                 <Button
                   style={{
                     width: "5rem",

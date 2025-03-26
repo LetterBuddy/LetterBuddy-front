@@ -13,22 +13,22 @@
   width: 60rem;
   border-collapse: collapse;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  font-weight: 650;
 }
 
-.actionsColumn {
-  display: flex;
-  justify-content: center;
-}
 
 .table th {
   background-color: var(--items-color);
-  padding: 1rem;
+  padding: 0.5rem;
   color: var(--secondary-color);
+}
+
+.table thead tr th {
+  text-align: left;
 }
 
 .table td {
   padding: 1rem;
-  font-weight: 650;
   color: var(--secondary-color);
 }
 
@@ -38,7 +38,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 650;
   font-size: 1rem;
   font-family: inherit;
   color: var(--secondary-color);
@@ -85,7 +85,7 @@
     flex-direction: column;
   }
   .table {
-    width: 30rem;
+    width: 35rem;
   }
 }
 
@@ -99,6 +99,6 @@
     padding: 0.5rem;
   }
   .table{
-    max-width: 20rem;
+    max-width: 28rem;
   }
 }
