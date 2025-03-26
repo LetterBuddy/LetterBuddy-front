@@ -35,13 +35,15 @@ const Login = () => {
     try {
       console.log("Logging in...", data);
       const response = await axiosAPI.post("/accounts/login/", data);
-      localStorage.setItem("access_token", response.data.access);
+      // localStorage.setItem("access_token", response.data.access);
       // localStorage.setItem("refresh_token", response.data.refresh);
-      userLogin(
-        response.data.first_name,
-        response.data.last_name,
-        response.data.is_child
-      );
+      console.log("Login Success", response);
+      
+      // userLogin(
+      //   response.data.first_name,
+      //   response.data.last_name,
+      //   response.data.is_child
+      // );
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
       setError("Invalid username or password");
