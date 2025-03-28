@@ -42,13 +42,17 @@ const Login = () => {
       const response = await axiosAPI.post("/accounts/login/", data);
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
-      userLogin(response.data.first_name, response.data.last_name, isChild);
-      isChild ? navigate("/submission") : navigate("/accounts");
+      // TODO maybe move possible roles to a utils file
+      const isLoggedUserChild = response.data.role === "CHILD";
+      userLogin(response.data.first_name, response.data.last_name, isLoggedUserChild);
+      isLoggedUserChild ? navigate("/submission") : navigate("/accounts");
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
       setError("Invalid username or password");
     }
-    setIsLoading(false);
+    finally {
+      setIsLoading(false);
+    }
   };
 
   return (
