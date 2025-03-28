@@ -23,7 +23,7 @@ const Head = () => {
   const logoutHandler = async () => {
     try {
       await axiosAPI.post("/accounts/logout/", {
-        refresh_token: localStorage.getItem("refresh_token"),
+        refresh: localStorage.getItem("refresh_token"),
       });
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");

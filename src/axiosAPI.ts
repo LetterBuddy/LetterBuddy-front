@@ -54,7 +54,19 @@ axiosAPI.interceptors.response.use(
 
               axiosAPI.defaults.headers["Authorization"] = response.data.access;
               originalRequest.headers["Authorization"] = response.data.access;
-
+              
+              // if the original request was logout we need to update the refresh token in its data
+              if (originalRequest.url === "/accounts/logout/") {
+                try {
+                  const parsedData = JSON.parse(originalRequest.data);
+                  if (parsedData.refresh) {
+                    parsedData.refresh = response.data.refresh;
+                  }
+                  originalRequest.data = JSON.stringify(parsedData);
+                } catch (error) {
+                  console.error("Error parsing original request data:", error);
+                }
+              }
               return axiosAPI(originalRequest);
             })
             .catch((err) => {
