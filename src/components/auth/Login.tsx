@@ -59,7 +59,7 @@ const Login = () => {
     <form onSubmit={handleSubmit(loginHandler)} className={classes.AuthForm}>
       <Label color="#7E675E">Log In</Label>
       <div className={classes.AuthToggle}>
-        <p>{!isChild ? "Didn’t sign in yet?" : ""}</p>
+        <p>{!isChild ? "Didn’t sign up yet?" : ""}</p>
         <button type="button" onClick={() => setIsSignUp(true)}>
           {!isChild ? "Sign Up" : ""}
         </button>
