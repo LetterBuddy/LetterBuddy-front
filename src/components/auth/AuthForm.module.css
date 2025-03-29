@@ -27,3 +27,7 @@
 .AuthToggle button:hover {
   transform: scale(1.1);
 }
+
+.loader {
+  margin: 2rem;
+}
