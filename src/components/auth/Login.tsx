@@ -7,6 +7,7 @@ import InputForm from "../ui/inputForm/InputForm";
 import classes from "./AuthForm.module.css";
 import useAuthStore from "../../store/useAuthStore";
 import useUserStore from "../../store/useUserStore";
+import useLoadingStore from "../../store/useLoadingStore";
 import axiosAPI from "../../axiosAPI";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ const Login = () => {
   const isChild = useAuthStore((state) => state.isChild);
   const userLogin = useUserStore((state) => state.userLogin);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const {isLoading, setIsLoading} = useLoadingStore();
 
   const {
     register,
@@ -44,13 +45,16 @@ const Login = () => {
       localStorage.setItem("refresh_token", response.data.refresh);
       // TODO maybe move possible roles to a utils file
       const isLoggedUserChild = response.data.role === "CHILD";
-      userLogin(response.data.first_name, response.data.last_name, isLoggedUserChild);
+      userLogin(
+        response.data.first_name,
+        response.data.last_name,
+        isLoggedUserChild
+      );
       isLoggedUserChild ? navigate("/submission") : navigate("/accounts");
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
       setError("Invalid username or password");
-    }
-    finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -77,9 +81,13 @@ const Login = () => {
       />
       {errors?.password && <span>{errors.password.message}</span>}
       {error && <span>{error}</span>}
-      {!isLoading ? <Button type="submit" variant="default">
-        Log In
-      </Button> : <ClipLoader color="#7E675E" />}
+      {!isLoading ? (
+        <Button type="submit" variant="default">
+          Log In
+        </Button>
+      ) : (
+        <ClipLoader className={classes.loader} />
+      )}
     </form>
   );
 };

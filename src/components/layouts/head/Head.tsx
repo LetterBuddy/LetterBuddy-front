@@ -6,6 +6,7 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import useUserStore from "../../../store/useUserStore";
+import useLoadingStore from "../../../store/useLoadingStore";
 import classes from "./Head.module.css";
 import axiosAPI from "../../../axiosAPI";
 
@@ -15,22 +16,27 @@ const Head = () => {
   const isChild = useUserStore((state) => state.isChild);
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   const clearUser = useUserStore((state) => state.clearUser);
+  const { isLoading, setIsLoading } = useLoadingStore();
 
   const isSubmissionPage = location.pathname === "/submission";
   const isAlphabetPage = location.pathname === "/alphabet";
   const isChildAccountsPage = location.pathname === "/accounts";
 
   const logoutHandler = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       await axiosAPI.post("/accounts/logout/", {
         refresh: localStorage.getItem("refresh_token"),
       });
+      navigate("/splash");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       clearUser();
-      navigate("/splash");
     } catch (error: any) {
       console.log("Logout Failed", error.response.data);
+    } finally {
+      setIsLoading(false);
     }
   };
 

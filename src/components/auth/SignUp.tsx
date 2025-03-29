@@ -6,7 +6,9 @@ import Button from "../ui/button/Button";
 import InputForm from "../ui/inputForm/InputForm";
 import classes from "./AuthForm.module.css";
 import useAuthStore from "../../store/useAuthStore";
+import useLoadingStore from "../../store/useLoadingStore";
 import axiosAPI from "../../axiosAPI";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const signUpSchema = z.object({
   email: z.string().email("Email is required"),
@@ -20,7 +22,8 @@ type SignUpFormInput = z.infer<typeof signUpSchema>;
 
 const SignUp = () => {
   const setIsSignUp = useAuthStore((state) => state.setIsSignUp);
-
+  const {isLoading, setIsLoading} = useLoadingStore();
+  
   const {
     register,
     handleSubmit,
@@ -32,6 +35,7 @@ const SignUp = () => {
 
   const signUpHandler = async (data: SignUpFormInput) => {
     try {
+      setIsLoading(true);
       const response = await axiosAPI.post("/accounts/adult/", data);
       console.log("Sign Up Successful", response);
     } catch (error: any) {
@@ -45,6 +49,8 @@ const SignUp = () => {
           });
         }
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,9 +89,13 @@ const SignUp = () => {
         {...register("password")}
       />
       {errors?.password && <span>{errors.password.message}</span>}
-      <Button type="submit" variant="default">
-        Sign Up
-      </Button>
+      {!isLoading ? (
+        <Button type="submit" variant="default">
+          Sign Up
+        </Button>
+      ) : (
+        <ClipLoader className={classes.loader} />
+      )}
     </form>
   );
 };
