@@ -25,14 +25,15 @@ const Head = () => {
   const logoutHandler = async () => {
     if (isLoading) return;
     setIsLoading(true);
+    clearUser();
+    navigate("/splash");
+    console.log("Logging out...");
     try {
       await axiosAPI.post("/accounts/logout/", {
         refresh: localStorage.getItem("refresh_token"),
       });
-      navigate("/splash");
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      clearUser();
     } catch (error: any) {
       console.log("Logout Failed", error.response.data);
     } finally {
