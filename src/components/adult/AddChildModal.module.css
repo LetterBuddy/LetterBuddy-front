@@ -1,0 +1,50 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal {
+  background-color: var(--primary-color);
+  padding: 3.5rem;
+  border-radius: 1.5rem;
+  max-width: 28rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+  border: 2px solid var(--secondary-color);
+  z-index: 1000;
+}
+
+.modal label,
+.modal input,
+.modal button {
+  margin-bottom: 1.5rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    padding: 1.5rem 1rem;
+  }
+}
