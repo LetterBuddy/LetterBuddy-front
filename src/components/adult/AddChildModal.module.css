@@ -28,6 +28,12 @@
   margin-bottom: 1.5rem;
 }
 
+.modal span {
+  display: flex;
+  justify-content: center;
+  color: var(--auth-toggle-color);
+}
+
 .closeButton {
   position: absolute;
   top: 1.5rem;

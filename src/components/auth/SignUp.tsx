@@ -102,3 +102,5 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+export { signUpSchema };
