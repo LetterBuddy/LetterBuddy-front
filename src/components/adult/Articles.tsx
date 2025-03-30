@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import Label from "../ui/label/Label";
 import classes from "./Articles.module.css";
