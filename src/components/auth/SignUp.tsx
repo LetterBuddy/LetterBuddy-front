@@ -5,7 +5,7 @@ import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import InputForm from "../ui/inputForm/InputForm";
 import classes from "./AuthForm.module.css";
-import useAuthStore from "../../store/useAuthstore";
+import useAuthStore from "../../store/useAuthStore";
 import useLoadingStore from "../../store/useLoadingStore";
 import axiosAPI from "../../axiosAPI";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -38,6 +38,7 @@ const SignUp = () => {
       setIsLoading(true);
       const response = await axiosAPI.post("/accounts/adult/", data);
       console.log("Sign Up Successful", response);
+      setIsSignUp(false);
     } catch (error: any) {
       console.log("Sign Up Failed", error.response.data);
       const errorData = error.response.data;

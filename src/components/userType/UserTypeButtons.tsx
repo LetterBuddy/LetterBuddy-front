@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import classes from "./UserTypeButtons.module.css";
 import animatedChild from "../../assets/Cartoon-Child.svg";
 import animatedParent from "../../assets/Cartoon-Adult.svg";
-import useAuthStore from "../../store/useAuthstore";
+import useAuthStore from "../../store/useAuthStore";
 
 const UserTypeButtons = () => {
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import Button from '../components/ui/button/Button';
 import Label from '../components/ui/label/Label';
 import myPen from '../assets/myPen.gif';
 import EntryLayout from '../components/layouts/EntryLayout';
-import useAuthStore from '../store/useAuthstore';
+import useAuthStore from '../store/useAuthStore';
 
 const SplashPage = () => {
     const navigate = useNavigate();
