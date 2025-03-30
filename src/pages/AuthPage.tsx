@@ -1,5 +1,5 @@
 import EntryLayout from "../components/layouts/EntryLayout";
-import useAuthStore from "../store/useAuthStore";
+import useAuthStore from "../store/useAuthstore";
 import SignUp from "../components/auth/SignUp";
 import Login from "../components/auth/Login";
 

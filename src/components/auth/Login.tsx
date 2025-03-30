@@ -5,7 +5,7 @@ import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import InputForm from "../ui/inputForm/InputForm";
 import classes from "./AuthForm.module.css";
-import useAuthStore from "../../store/useAuthStore";
+import useAuthStore from "../../store/useAuthstore";
 import useUserStore from "../../store/useUserStore";
 import useLoadingStore from "../../store/useLoadingStore";
 import axiosAPI from "../../axiosAPI";
