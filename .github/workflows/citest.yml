@@ -32,7 +32,6 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-npm-
     - run: npm ci
-    # - run: npm test
     - name: Run ESLint
       run: npx eslint "**/*.{js,jsx,ts,tsx}" | tee eslint-report-${{ matrix.node-version }}.txt || true
     - name: Upload ESLint report as an artifact
@@ -40,4 +39,13 @@ jobs:
       with:
         name: eslint-report-${{ matrix.node-version }}
         path: eslint-report-${{ matrix.node-version }}.txt
+    - name: run Lighthouse CI
+      run: |
+        npm install -g @lhci/cli@0.14.x
+        lhci autorun
+      env:
+        LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+    - name: Run security audit
+      run: npm audit --audit-level=moderate
+  
     - run: npm run build --if-present
