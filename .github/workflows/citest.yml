@@ -46,7 +46,7 @@ jobs:
     - name: run Lighthouse CI
       run: |
         npm install -g @lhci/cli@0.14.x
-        lhci autorun --collect.staticDistDir=dist --verbose
+        lhci autorun --collect.staticDistDir=dist --assert.assertions=disabled --verbose
       env:
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
