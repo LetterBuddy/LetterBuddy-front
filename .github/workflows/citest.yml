@@ -51,7 +51,7 @@ jobs:
       # verbose - get more info about the run
       run: |
         npm install -g @lhci/cli@0.14.x
-        lhci autorun --config=lighthouserc.js --assert.assertions=disabled --verbose
+        lhci autorun --config=lighthouserc.jsc --assert.assertions=disabled --verbose
       env:
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
