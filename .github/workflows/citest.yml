@@ -43,9 +43,6 @@ jobs:
       run: npm audit --audit-level=moderate
   
     - run: npm run build --if-present
-    - name: Start Vite server on port 3000
-      run: |
-        npm run dev -- --port 3000 & sleep 5
     - name: run Lighthouse CI
       # assertions are disabled to avoid failing the build
       # verbose - get more info about the run
