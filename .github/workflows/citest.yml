@@ -40,4 +40,9 @@ jobs:
       with:
         name: eslint-report-${{ matrix.node-version }}
         path: eslint-report-${{ matrix.node-version }}.txt
+    # checks for security vulnerabilities in dependencies
+    # npm audit fix updates vulnerable dependencies in a non-breaking way(not major version updates)
+    - name: Run security audit
+      run: npm audit --audit-level=moderate
+      
     - run: npm run build --if-present
