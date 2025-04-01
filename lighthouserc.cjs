@@ -7,7 +7,7 @@ module.exports = {
     ci: {
       collect: {
         numberOfRuns: 1,
-        staticDistDir: dist,
+        staticDistDir: './dist',
         url : [
             'http://localhost:3000/splash',
             'http://localhost:3000/auth',
