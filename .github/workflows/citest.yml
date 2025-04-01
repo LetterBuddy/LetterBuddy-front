@@ -44,9 +44,13 @@ jobs:
   
     - run: npm run build --if-present
     - name: run Lighthouse CI
+      # get the build dir - dist
+      # uploades to temporary public storage where the report will be available
+      # assertions are disabled to avoid failing the build
+      # verbose - get more info about the run
       run: |
         npm install -g @lhci/cli@0.14.x
-        lhci autorun --collect.staticDistDir=dist --assert.assertions=disabled --verbose
+        lhci autorun --collect.staticDistDir=dist --assert.assertions=disabled --upload.target=temporary-public-storage --verbose
       env:
         LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
         VITE_APP_API_URL: ${{ secrets.VITE_APP_API_URL }}
