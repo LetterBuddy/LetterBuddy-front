@@ -1,6 +1,7 @@
 import axios from "axios";
-const baseURL = import.meta.env.VITE_APP_API_URL;
+import useUserStore from "./store/useUserStore";
 
+const baseURL = import.meta.env.VITE_APP_API_URL;
 
 const axiosAPI = axios.create({
   baseURL: baseURL,
@@ -9,6 +10,13 @@ const axiosAPI = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+// TODO maybe move this to a different file
+const cleanUserInfoAndTokens = () => {
+  useUserStore.getState().clearUser();
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("refresh_token");
+}
 
 axiosAPI.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("access_token");
@@ -22,14 +30,14 @@ axiosAPI.interceptors.response.use(
   (error) => {
     const originalRequest = error.config;
 
-    // Prevent infinite loops early
-    // if (
-    //   error.response.status === 401 &&
-    //   originalRequest.url === baseURL + "token/refresh/"
-    // ) {
-    //   window.location.href = "/login/";
-    //   return Promise.reject(error);
-    // }
+    console.log(originalRequest.url)
+    // prevent infinite loops
+    if (
+      error.response.status === 401 &&
+      originalRequest.url === "/accounts/token/refresh/"
+    ) {
+      return Promise.reject(error);
+    }
 
     if (
       error.response.data.code === "token_not_valid" &&
@@ -73,11 +81,14 @@ axiosAPI.interceptors.response.use(
               console.log(err);
             });
         } else {
+          // TODO maybe show a fitting message to the user - his "session" is expired
           console.log("Refresh token is expired", tokenParts.exp, now);
+          cleanUserInfoAndTokens();
           window.location.href = "/splash/";
         }
       } else {
         console.log("Refresh token not available.");
+        cleanUserInfoAndTokens();
         window.location.href = "/splash/";
       }
     }

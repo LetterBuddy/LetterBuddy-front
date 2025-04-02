@@ -20,8 +20,8 @@
     border-radius: 3%;
 }
 .link {
-    font-size: 1.3rem;
-    margin-left: 2rem;
+    font-size: 1rem;
+    margin-right: 2rem;
 }
 
 @media (max-width: 768px) {

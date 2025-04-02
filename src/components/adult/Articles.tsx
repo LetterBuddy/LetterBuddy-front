@@ -27,11 +27,10 @@ const Articles = () => {
       <Label>Handwriting Tips</Label>
       {articles.map((article) => (
         <div className={classes.article} key={article.id}>
-          <h3>{article.title}</h3>
-          <label>{article.description}</label>
           <a href={article.link} className={classes.link}>
-            Learn More
+          <h3>{article.title}</h3>
           </a>
+          <label>{article.description}</label>
         </div>
       ))}
     </div>

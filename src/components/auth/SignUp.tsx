@@ -81,12 +81,14 @@ const SignUp = () => {
       <InputForm
         type="text"
         placeholder="User Name"
+        autoComplete="username"
         {...register("username")}
       />
       {errors?.username && <span>{errors.username.message}</span>}
       <InputForm
         type="password"
         placeholder="Password"
+        autoComplete="new-password"
         {...register("password")}
       />
       {errors?.password && <span>{errors.password.message}</span>}
