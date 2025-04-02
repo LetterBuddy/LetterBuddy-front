@@ -3,37 +3,55 @@ import Label from '../ui/label/Label';
 import classes from './Alphabet.module.css';
 
 // Dynamically import all GIFs from the folder
-const images = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
+const gifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
+const pngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/lower/*.png');
+
 
 const Alphabet = () => {
-  const [imageMap, setImageMap] = useState<Record<string, string>>({});
+  const [gifMap, setGifMap] = useState<Record<string, string>>({});
+  const [pngMap, setPngMap] = useState<Record<string, string>>({});
+  const [active, setActive] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    const loadImages = async () => {
-      const loadedImages: Record<string, string> = {};
+    const loadFiles = async () => {
+      const gifsLoaded: Record<string, string> = {};
+      const pngsLoaded: Record<string, string> = {};
 
-      for (const path in images) {
-        const module = await images[path]();
-        const fileName = path.split('/').pop()?.replace('.gif', '') || '';
-        loadedImages[fileName] = module.default;
+      for (const path in gifs) {
+        const mod = await gifs[path]();
+        const name = path.split('/').pop()?.replace('.gif', '') || '';
+        gifsLoaded[name] = mod.default;
       }
 
-      setImageMap(loadedImages);
+      for (const path in pngs) {
+        const mod = await pngs[path]();
+        const name = path.split('/').pop()?.replace('.png', '') || '';
+        pngsLoaded[name] = mod.default;
+      }
+
+      setGifMap(gifsLoaded);
+      setPngMap(pngsLoaded);
     };
 
-    loadImages();
+    loadFiles();
   }, []);
+
+  const handleClick = (letter: string) => {
+    setActive(prev => ({ ...prev, [letter]: !prev[letter] }));
+  };
 
   return (
     <div className={classes.Alphabet}>
       <Label>Handwriting Guidelines</Label>
-      <div>
-        {Object.entries(imageMap).map(([letter, src]) => (
-          <img 
-            key={letter} 
-            src={src} 
-            alt={`Handwriting guide for letter ${letter}`} 
+      <div className={classes.grid}>
+        {Object.keys(gifMap).map(letter => (
+          <img
+            key={letter}
+            src={active[letter] ? gifMap[letter] : pngMap[letter]}
+            alt={`Handwriting guide for letter ${letter}`}
             loading="lazy"
+            onClick={() => handleClick(letter)}
+            style={{ cursor: 'pointer' }}
           />
         ))}
       </div>
