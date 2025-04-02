@@ -23,6 +23,8 @@ const Head = () => {
   const isChildAccountsPage = location.pathname === "/accounts";
 
   const logoutHandler = async () => {
+    // TODO think about the logic here - logout may also fail(means the old refresh token is still valid)
+    // anyway - the tokens should be removed in the finally if the same logic is kept - they aren't removed if logout fails
     if (isLoading) return;
     setIsLoading(true);
     clearUser();
@@ -32,11 +34,11 @@ const Head = () => {
       await axiosAPI.post("/accounts/logout/", {
         refresh: localStorage.getItem("refresh_token"),
       });
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
     } catch (error: any) {
       console.log("Logout Failed", error.response.data);
     } finally {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
       setIsLoading(false);
     }
   };

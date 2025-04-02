@@ -69,9 +69,9 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
         {errors?.first_name && <span>{errors.first_name.message}</span>}
         <InputForm type="text" placeholder="Last Name"  {...register("last_name")}/>
         {errors?.last_name && <span>{errors.last_name.message}</span>}
-        <InputForm type="text" placeholder="User Name" {...register("username")}/>
+        <InputForm type="text" placeholder="User Name" autoComplete="username" {...register("username")}/>
         {errors?.username && <span>{errors.username.message}</span>}
-        <InputForm type="password" placeholder="Child's Password" {...register("password")} />
+        <InputForm type="password" placeholder="Child's Password" autoComplete="new-password" {...register("password")} />
         {errors?.password && <span>{errors.password.message}</span>}
         <Button type="submit">Add Child</Button>
       </form>
