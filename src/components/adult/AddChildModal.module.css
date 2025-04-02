@@ -10,7 +10,7 @@
 
 .modal {
   background-color: var(--primary-color);
-  padding: 3.5rem;
+  padding: 2rem;
   border-radius: 1.5rem;
   max-width: 28rem;
   position: fixed;
@@ -25,7 +25,7 @@
 .modal label,
 .modal input,
 .modal button {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .modal span {
@@ -49,8 +49,9 @@
   color: #000;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
   .modal {
-    padding: 1.5rem 1rem;
+    padding: 1rem;
   }
 }
