@@ -1,5 +1,5 @@
 import EntryLayout from "../components/layouts/EntryLayout";
-import Articles from "../components/adult/Articles";
+import Articles from "../components/adult/article/Articles";
 
 const ArticlesPage = () => {
   return (

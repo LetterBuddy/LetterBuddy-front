@@ -8,6 +8,8 @@ import classes from "./AddChildModal.module.css";
 import axiosAPI from "../../axiosAPI";
 import { signUpSchema } from "../../components/auth/SignUp";
 import useChildStore from "../../store/useChildStore";
+import useLoadingStore from "../../store/useLoadingStore";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const addChildScema = signUpSchema.omit({ email: true });
 
@@ -20,6 +22,7 @@ interface AddChildModalProps {
 
 const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
   const { addChild } = useChildStore();
+  const { isLoading, setIsLoading } = useLoadingStore();
 
   if (!isOpen) return null;
   const {
@@ -39,6 +42,7 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
 
   const handleAddChild = async (data: AddChildFormInput) => {
     try {
+      setIsLoading(true);
       const response = await axiosAPI.post("/accounts/child/", data);
       const addedChild = response.data;
       console.log("Child user added successfully:", addedChild);
@@ -55,6 +59,8 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
           });
         }
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -91,7 +97,11 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
           {...register("password")}
         />
         {errors?.password && <span>{errors.password.message}</span>}
-        <Button type="submit">Add Child</Button>
+        {!isLoading ? (
+          <Button type="submit">Add Child</Button>
+        ) : (
+          <ClipLoader className={classes.loader} />
+        )}
       </form>
     </div>
   );

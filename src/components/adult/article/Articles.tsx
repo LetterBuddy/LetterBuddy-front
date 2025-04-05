@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-import Label from "../ui/label/Label";
+import Label from "../../ui/label/Label";
 import classes from "./Articles.module.css";
-import axiosAPI from "../../axiosAPI";
-import useArticleStore from "../../store/useArticleStore";
+import axiosAPI from "../../../axiosAPI";
+import useArticleStore from "../../../store/useArticleStore";
 
 const Articles = () => {
   const { articles, setArticles } = useArticleStore();

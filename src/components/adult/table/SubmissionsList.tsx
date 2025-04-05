@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import Button from "../ui/button/Button";
+import Button from "../../ui/button/Button";
 import classes from "./SubmissionsTable.module.css";
 import { HandwritingSubmission } from "./SubmissionsTable";
 
@@ -86,7 +86,7 @@ const SubmissionsList = ({
       <tbody>
         {sortedData.length === 0 ? (
           <tr>
-            <td colSpan={4} className={classes.emptyState}>
+            <td colSpan={10} className={classes.emptyState}>
               No submissions found.
             </td>
           </tr>
@@ -113,8 +113,8 @@ const SubmissionsList = ({
                   style={{
                     width: "5rem",
                     height: "2rem",
-                    fontSize: "1rem",
-                    margin: "0",
+                    fontSize: "0.9rem",
+                    margin: "0.5rem",
                   }}
                   onClick={() => handleViewDetails(submission.id)}
                 >
