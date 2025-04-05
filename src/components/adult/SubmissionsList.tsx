@@ -113,7 +113,7 @@ const SubmissionsList = ({
                   style={{
                     width: "5rem",
                     height: "2rem",
-                    fontSize: "0.8rem",
+                    fontSize: "1rem",
                     margin: "0",
                   }}
                   onClick={() => handleViewDetails(submission.id)}
