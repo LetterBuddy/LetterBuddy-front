@@ -1,5 +1,5 @@
 import EntryLayout from "../components/layouts/EntryLayout";
-import SubmissionsTable from "../components/adult/SubmissionsTable";
+import SubmissionsTable from "../components/adult/table/SubmissionsTable";
 
 const SubmissionsTablePage = () => {
   return (
