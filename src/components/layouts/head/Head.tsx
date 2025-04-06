@@ -6,7 +6,9 @@ import {
   IconLogout,
 } from "@tabler/icons-react";
 import useUserStore from "../../../store/useUserStore";
+import useChildStore from "../../../store/useChildStore";
 import useLoadingStore from "../../../store/useLoadingStore";
+import useExerciseStore from "../../../store/useExerciseStore";
 import classes from "./Head.module.css";
 import axiosAPI from "../../../axiosAPI";
 
@@ -16,6 +18,8 @@ const Head = () => {
   const isChild = useUserStore((state) => state.isChild);
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   const clearUser = useUserStore((state) => state.clearUser);
+  const removeAllChildren = useChildStore((state) => state.removeAllChildren);
+  const clearExercise  = useExerciseStore((state) => state.clearExercise);
   const { isLoading, setIsLoading } = useLoadingStore();
 
   const isSubmissionPage = location.pathname === "/submission";
@@ -28,6 +32,8 @@ const Head = () => {
     if (isLoading) return;
     setIsLoading(true);
     clearUser();
+    removeAllChildren();
+    clearExercise();
     navigate("/splash");
     console.log("Logging out...");
     try {
