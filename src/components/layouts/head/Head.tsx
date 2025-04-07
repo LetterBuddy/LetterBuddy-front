@@ -16,7 +16,7 @@ const Head = () => {
   const isChild = useUserStore((state) => state.isChild);
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   const clearUser = useUserStore((state) => state.clearUser);
-  const { isLoading, setIsLoading } = useLoadingStore();
+  const {setIsLoading } = useLoadingStore();
 
   const isSubmissionPage = location.pathname === "/submission";
   const isAlphabetPage = location.pathname === "/alphabet";
@@ -25,7 +25,6 @@ const Head = () => {
   const logoutHandler = async () => {
     // TODO think about the logic here - logout may also fail(means the old refresh token is still valid)
     // anyway - the tokens should be removed in the finally if the same logic is kept - they aren't removed if logout fails
-    if (isLoading) return;
     setIsLoading(true);
     clearUser();
     navigate("/splash");

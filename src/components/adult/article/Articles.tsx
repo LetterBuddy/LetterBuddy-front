@@ -4,18 +4,23 @@ import Label from "../../ui/label/Label";
 import classes from "./Articles.module.css";
 import axiosAPI from "../../../axiosAPI";
 import useArticleStore from "../../../store/useArticleStore";
+import useLoadingStore from "../../../store/useLoadingStore";
 
 const Articles = () => {
   const { articles, setArticles } = useArticleStore();
-
+  const { setIsLoading } = useLoadingStore();
   useEffect(() => {
     if (articles.length === 0) {
       const fetchArticles = async () => {
+        setIsLoading(true);
         try {
           const response = await axiosAPI.get("/exercises/articles/");
           setArticles(response.data);
         } catch (error: any) {
           console.error("Failed to fetch articles", error);
+        }
+        finally {
+          setIsLoading(false);
         }
       };
       fetchArticles();
