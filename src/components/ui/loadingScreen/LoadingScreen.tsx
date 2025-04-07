@@ -1,14 +1,14 @@
 import Label from "../label/Label";
-import myPen from "../../../assets/myPen.gif";
+import loading_gif from "../../../assets/loading_gif.gif";
 import classes from "./LoadingScreen.module.css";
 
 const LoadingScreen = () => {
   return (
     <div className={classes.loadingScreen}>
       <img
-        src={myPen}
-        alt="myPen"
-        style={{ width: "2...50px", height: "250px" }}
+        src={loading_gif}
+        alt="loading"
+        style={{ width: "300px", height: "300px" }}
       />
       <Label>Loading...</Label>
     </div>
