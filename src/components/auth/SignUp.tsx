@@ -92,12 +92,12 @@ const SignUp = () => {
         {...register("password")}
       />
       {errors?.password && <span>{errors.password.message}</span>}
-      {!isLoading ? (
+      {!isLoading && (
         <Button type="submit" variant="default">
           Sign Up
         </Button>
-      ) : (
-        <ClipLoader className={classes.loader} />
+      // ) : (
+      //   <ClipLoader className={classes.loader} />
       )}
     </form>
   );

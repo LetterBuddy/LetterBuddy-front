@@ -1,17 +1,26 @@
 import * as React from "react";
 import { Fragment } from "react";
 import Head from "./head/Head";
-
+import LoadingScreen from "../ui/loadingScreen/LoadingScreen";
+import useLoadingStore from "../../store/useLoadingStore";
 
 type LayoutProps = {
-  children: React.ReactNode,
+  children: React.ReactNode;
 };
 
 const Layout = (props: LayoutProps) => {
+  const { isLoading } = useLoadingStore();
+
   return (
     <Fragment>
-      <Head />
-      <main>{props.children}</main>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Head />
+          <main>{props.children}</main>
+        </>
+      )}
     </Fragment>
   );
 };

@@ -11,7 +11,7 @@ import useLoadingStore from "../../store/useLoadingStore";
 import axiosAPI from "../../axiosAPI";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ClipLoader from "react-spinners/ClipLoader";
+// import ClipLoader from "react-spinners/ClipLoader";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -26,7 +26,7 @@ const Login = () => {
   const isChild = useAuthStore((state) => state.isChild);
   const userLogin = useUserStore((state) => state.userLogin);
   const [error, setError] = useState<string | null>(null);
-  const {isLoading, setIsLoading} = useLoadingStore();
+  const { isLoading, setIsLoading } = useLoadingStore();
 
   const {
     register,
@@ -83,12 +83,13 @@ const Login = () => {
       />
       {errors?.password && <span>{errors.password.message}</span>}
       {error && <span>{error}</span>}
-      {!isLoading ? (
+      {!isLoading && (
         <Button type="submit" variant="default">
           Log In
         </Button>
-      ) : (
-        <ClipLoader className={classes.loader} />
+        // ) : (
+        //   <ClipLoader className={classes.loader} />
+        // )}
       )}
     </form>
   );
