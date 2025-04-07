@@ -10,6 +10,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
+.childCard:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
 .iconContainer {
   display: flex;
   justify-content: space-between;
@@ -22,8 +26,18 @@
   cursor: pointer;
 }
 
+.icon:hover{
+  transform: scale(1.1);
+}
+
+@media (max-width: 1366px) {
+  .childCard {
+    min-width: 20rem;
+  }
+}
+
 @media (max-width: 576px) {
   .childCard {
-    min-width: 18rem;
+    min-width: 17rem;
   }
 }
