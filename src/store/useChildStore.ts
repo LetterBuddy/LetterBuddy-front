@@ -13,6 +13,7 @@ interface ChildStore {
     setChildren: (children: Child[]) => void;
     addChild: (child: Child) => void;
     removeChild: (childId: number) => void;
+    removeAllChildren: () => void;
 }
 
 const useChildStore = create<ChildStore>((set) => ({
@@ -20,6 +21,7 @@ const useChildStore = create<ChildStore>((set) => ({
     setChildren: (children) => set({ children }),
     addChild: (child) => set((state) => ({ children: [...state.children, child] })),
     removeChild: (childId) => set((state) => ({ children: state.children.filter(child => child.id !== childId) })),
+    removeAllChildren: () => set({ children: []}),
 }));
 
 export default useChildStore;
