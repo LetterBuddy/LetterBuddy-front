@@ -29,6 +29,7 @@ const Submission = () => {
     else if(level == "category")
       guidingText = "Please write a word from the category: " + category;
     const utterance = new SpeechSynthesisUtterance(guidingText);
+    utterance.lang = "en-US";
     speechSynthesis.speak(utterance);
   };
   // will be used again after the exercise is submitted
