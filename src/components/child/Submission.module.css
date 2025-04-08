@@ -1,4 +1,5 @@
 .submission div {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,8 +24,8 @@
 
 .submission .volumeIcon {
   position: absolute;
-  bottom: 22rem;
-  right: 43.5rem;
+  top: 0.75rem;
+  left: 1.25rem;
   color: var(--secondary-color);
   cursor: pointer;
 }
