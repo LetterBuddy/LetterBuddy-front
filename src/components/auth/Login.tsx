@@ -26,7 +26,7 @@ const Login = () => {
   const isChild = useAuthStore((state) => state.isChild);
   const userLogin = useUserStore((state) => state.userLogin);
   const [error, setError] = useState<string | null>(null);
-  const {isLoading, setIsLoading} = useLoadingStore();
+  const { isLoading, setIsLoading } = useLoadingStore();
 
   const {
     register,
@@ -61,7 +61,7 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit(loginHandler)} className={classes.AuthForm}>
-      <Label color="#7E675E">Log In</Label>
+      <Label style={{ color: "#7E675E" }}>Log In</Label>
       <div className={classes.AuthToggle}>
         <p>{!isChild ? "Didn’t sign up yet?" : ""}</p>
         <button type="button" onClick={() => setIsSignUp(true)}>

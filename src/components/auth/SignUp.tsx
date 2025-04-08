@@ -57,7 +57,7 @@ const SignUp = () => {
 
   return (
     <form onSubmit={handleSubmit(signUpHandler)} className={classes.AuthForm}>
-      <Label color="#7E675E">Sign Up</Label>
+      <Label style={{ color: "#7E675E" }}>Sign Up</Label>
       <div className={classes.AuthToggle}>
         <p>Already have an account?</p>
         <button type="button" onClick={() => setIsSignUp(false)}>
