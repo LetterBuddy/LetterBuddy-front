@@ -1,4 +1,5 @@
 .submission div {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +22,18 @@
   width: 100%;
 }
 
+.submission .volumeIcon {
+  position: absolute;
+  top: 0.75rem;
+  left: 1.25rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.submission .volumeIcon:hover {
+  scale: 1.15;
+  transition: all 0.5s ease;
+}
 /* media query */
 @media (max-width: 576px) {
   .submission div {
