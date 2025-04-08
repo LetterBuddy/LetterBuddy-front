@@ -71,7 +71,7 @@ const Submission = () => {
     <section className={classes.submission}>
       <div>
         <IconWritingSign stroke={2} size={40} />
-        <Label>{requested_text}</Label>
+        <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>
         {('speechSynthesis' in window) && (
         <IconVolume
             className={classes.volumeIcon}
