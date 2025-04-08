@@ -21,7 +21,7 @@ const useChildStore = create<ChildStore>((set) => ({
     setChildren: (children) => set({ children }),
     addChild: (child) => set((state) => ({ children: [...state.children, child] })),
     removeChild: (childId) => set((state) => ({ children: state.children.filter(child => child.id !== childId) })),
-    removeAllChildren: () => set({ children: []})
+    removeAllChildren: () => set({ children: []}),
 }));
 
 export default useChildStore;
