@@ -1,19 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { IconWritingSign, IconCloudUpload, IconVolume } from "@tabler/icons-react";
+import {
+  IconWritingSign,
+  IconCloudUpload,
+  IconVolume,
+  IconPlayerSkipForwardFilled,
+} from "@tabler/icons-react";
 import classes from "./Submission.module.css";
 import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
-
+import ClipLoader from "react-spinners/ClipLoader";
+import useLoadingStore from "../../store/useLoadingStore";
 
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
-
 const Submission = () => {
   const [selectedImage, setSelectedImage] = useState("");
-  
-  const {requested_text, level, category, setExercise} = useExerciseStore()
+  const hasFetched = useRef(false);
+
+  const { requested_text, level, category, setExercise } = useExerciseStore();
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   // if speechSynthesis is not supported, the volume button will not be rendered
@@ -21,12 +27,15 @@ const Submission = () => {
   const readExercise = () => {
     if (!("speechSynthesis" in window)) return;
     let guidingText = "";
-    if(level == "letters")
+    if (level == "letters")
       // TODO maybe state if the letter is uppercase or lowercase
-      guidingText = "Please write the letter " + requested_text[0] + requested_text.length + " times.";
-    else if(level == "words")
-      guidingText = requested_text
-    else if(level == "category")
+      guidingText =
+        "Please write the letter " +
+        requested_text[0] +
+        requested_text.length +
+        " times.";
+    else if (level == "words") guidingText = requested_text;
+    else if (level == "category")
       guidingText = "Please write a word from the category: " + category;
     const utterance = new SpeechSynthesisUtterance(guidingText);
     utterance.lang = "en-US";
@@ -37,18 +46,34 @@ const Submission = () => {
   const fetchExercise = async () => {
     try {
       const response = await axiosAPI.post("/exercises/");
-      setExercise(response.data.id, response.data.requested_text, response.data.level, response.data.category);
+      setExercise(
+        response.data.id,
+        response.data.requested_text,
+        response.data.level,
+        response.data.category
+      );
     } catch (error: any) {
       console.error("Failed to fetch exercise", error);
     }
   };
   useEffect(() => {
-    if (requested_text === "") {
+    if (!hasFetched.current && requested_text === "") {
+      hasFetched.current = true;
       fetchExercise();
     }
   }, []);
 
-  const handleFileChange = (event:any) => {
+  const skipExercise = async () => {
+    const exerciseId = useExerciseStore.getState().id;
+    try {
+      await axiosAPI.delete(`/exercises/${exerciseId}/delete/`);
+      fetchExercise();
+    } catch (error: any) {
+      console.error("Failed to skip exercise", error);
+    }
+  };
+
+  const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
@@ -72,13 +97,18 @@ const Submission = () => {
       <div>
         <IconWritingSign stroke={2} size={40} />
         <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>
-        {('speechSynthesis' in window) && (
-        <IconVolume
+        {"speechSynthesis" in window && (
+          <IconVolume
             className={classes.volumeIcon}
             size={35}
             onClick={() => readExercise()}
           />
         )}
+        <IconPlayerSkipForwardFilled
+          className={classes.skipIcon}
+          size={30}
+          onClick={skipExercise}
+        />
       </div>
       <div>
         <IconCloudUpload stroke={2} size={40} />
@@ -93,7 +123,7 @@ const Submission = () => {
             style={{ display: "none" }}
           />
           <Button style={buttonsStyle} onClick={openCamera}>
-          Capture Photo 
+            Capture Photo
           </Button>
 
           <input

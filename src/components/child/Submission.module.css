@@ -34,6 +34,19 @@
   scale: 1.15;
   transition: all 0.5s ease;
 }
+
+.submission .skipIcon{
+  position: absolute;
+  top: 0.75rem;
+  right: 1.25rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+}
+
+.submission .skipIcon:hover {
+  scale: 1.15;
+  transition: all 0.5s ease;
+}
 /* media query */
 @media (max-width: 576px) {
   .submission div {
