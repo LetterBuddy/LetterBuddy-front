@@ -10,9 +10,6 @@ import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
-import ClipLoader from "react-spinners/ClipLoader";
-import useLoadingStore from "../../store/useLoadingStore";
-
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
 const Submission = () => {
