@@ -3,8 +3,11 @@ import Label from '../ui/label/Label';
 import classes from './Alphabet.module.css';
 
 // Dynamically import all GIFs from the folder
-const gifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
-const pngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/lower/*.png');
+const lowerGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
+const lowerPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/lower/*.png');
+
+const upperGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/upper/*.gif');
+const upperPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/upper/*.png');
 
 
 const Alphabet = () => {
@@ -17,14 +20,14 @@ const Alphabet = () => {
       const gifsLoaded: Record<string, string> = {};
       const pngsLoaded: Record<string, string> = {};
 
-      for (const path in gifs) {
-        const mod = await gifs[path]();
+      for (const path in lowerGifs) {
+        const mod = await lowerGifs[path]();
         const name = path.split('/').pop()?.replace('.gif', '') || '';
         gifsLoaded[name] = mod.default;
       }
 
-      for (const path in pngs) {
-        const mod = await pngs[path]();
+      for (const path in lowerPngs) {
+        const mod = await lowerPngs[path]();
         const name = path.split('/').pop()?.replace('.png', '') || '';
         pngsLoaded[name] = mod.default;
       }
