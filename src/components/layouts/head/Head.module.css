@@ -34,9 +34,9 @@
 /* media query */
 @media (max-width: 576px) {
   .header {
-    padding: 0.5rem;
+    padding: 0.2rem;
   }
   .icons {
-    width: 5rem;
+    width: 5.5rem;
   }
 }

@@ -111,7 +111,7 @@ const SubmissionsList = ({
               <td style={{padding: "0"}}>
                 <Button
                   style={{
-                    width: "5rem",
+                    width: "4rem",
                     height: "2rem",
                     fontSize: "0.9rem",
                     margin: "0.5rem",
