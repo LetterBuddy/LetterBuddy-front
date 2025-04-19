@@ -6,8 +6,8 @@ import classes from './Alphabet.module.css';
 const lowerGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
 const lowerPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/lower/*.png');
 
-const upperGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/upper/*.gif');
-const upperPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/upper/*.png');
+// const upperGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/upper/*.gif');
+// const upperPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/upper/*.png');
 
 
 const Alphabet = () => {
