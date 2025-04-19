@@ -6,7 +6,7 @@ import { HandwritingSubmission } from "./SubmissionsTable";
 type SubmissionsListProps = {
   sortedData: HandwritingSubmission[];
   handleSort: (key: keyof HandwritingSubmission) => void;
-  handleViewDetails: (id: string) => void;
+  handleViewSubmission: (id: string) => void;
   sortConfig: {
     key: keyof HandwritingSubmission | null;
     direction: "asc" | "desc";
@@ -48,7 +48,7 @@ const SortableHeader = ({
 const SubmissionsList = ({
   sortedData,
   handleSort,
-  handleViewDetails,
+  handleViewSubmission,
   sortConfig,
 }: SubmissionsListProps) => {
   return (
@@ -116,7 +116,7 @@ const SubmissionsList = ({
                     fontSize: "0.9rem",
                     margin: "0.5rem",
                   }}
-                  onClick={() => handleViewDetails(submission.id)}
+                  onClick={() => handleViewSubmission(submission.id)}
                 >
                   View
                 </Button>
