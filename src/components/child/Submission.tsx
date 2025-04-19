@@ -62,8 +62,10 @@ const Submission = () => {
 
   const skipExercise = async () => {
     const exerciseId = useExerciseStore.getState().id;
+    if(exerciseId === -1) return;
     try {
-      await axiosAPI.delete(`/exercises/${exerciseId}/delete/`);
+      useExerciseStore.getState().clearExercise();
+      await axiosAPI.delete(`/exercises/${exerciseId}/`);
       fetchExercise();
     } catch (error: any) {
       console.error("Failed to skip exercise", error);
