@@ -4,12 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../ui/button/Button";
 import InputForm from "../ui/inputForm/InputForm";
 import Label from "../ui/label/Label";
-import classes from "./AddChildModal.module.css";
 import axiosAPI from "../../axiosAPI";
 import { signUpSchema } from "../../components/auth/SignUp";
 import useChildStore from "../../store/useChildStore";
 import useLoadingStore from "../../store/useLoadingStore";
 import ClipLoader from "react-spinners/ClipLoader";
+import Modal from "../ui/modal/Modal";
 
 const addChildScema = signUpSchema.omit({ email: true });
 
@@ -33,12 +33,6 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
   } = useForm<AddChildFormInput>({
     resolver: zodResolver(addChildScema),
   });
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if ((e.target as Element).classList.contains(classes.backdrop)) {
-      onClose();
-    }
-  };
 
   const handleAddChild = async (data: AddChildFormInput) => {
     try {
@@ -65,11 +59,15 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
   };
 
   return (
-    <div className={classes.backdrop} onClick={handleBackdropClick}>
-      <form className={classes.modal} onSubmit={handleSubmit(handleAddChild)}>
-        <button className={classes.closeButton} onClick={onClose}>
-          ✖
-        </button>
+    <Modal onClose={onClose} backdropClickCloses={true}>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        onSubmit={handleSubmit(handleAddChild)}
+      >
         <Label>Add a new child user</Label>
         <InputForm
           type="text"
@@ -100,10 +98,12 @@ const AddChildModal = ({ isOpen, onClose }: AddChildModalProps) => {
         {!isLoading ? (
           <Button type="submit">Add Child</Button>
         ) : (
-          <ClipLoader className={classes.loader} />
+          <div style={{ margin: "2.5rem" }}>
+            <ClipLoader />
+          </div>
         )}
       </form>
-    </div>
+    </Modal>
   );
 };
 
