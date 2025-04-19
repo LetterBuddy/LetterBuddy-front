@@ -59,7 +59,7 @@ const SubmissionsList = ({
           <th>
             <SortableHeader
               label="Date"
-              sortKey="date"
+              sortKey="submission_date"
               handleSort={handleSort}
               sortConfig={sortConfig}
             />
@@ -67,7 +67,7 @@ const SubmissionsList = ({
           <th>
             <SortableHeader
               label="Exercise"
-              sortKey="exercise"
+              sortKey="requested_text"
               handleSort={handleSort}
               sortConfig={sortConfig}
             />
@@ -96,9 +96,9 @@ const SubmissionsList = ({
               key={submission.id}
               className={index % 2 === 0 ? classes.rowEven : ''}
             >
-              <td>{submission.type}</td>
-              <td>{format(submission.date, "MMM dd, yyyy")}</td>
-              <td>{submission.exercise}</td>
+              <td>{submission.level}</td>
+              <td>{format(submission.submission_date, "MMM dd, yyyy")}</td>
+              <td>{submission.requested_text}</td>
               <td>
                 <span
                   className={`${classes.badge} ${getScoreBadgeClass(
