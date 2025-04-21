@@ -13,7 +13,9 @@ import useExerciseStore from "../../store/useExerciseStore";
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
 const Submission = () => {
-  const [selectedImage, setSelectedImage] = useState("");
+  const [uploadedImage, setUploadedImage] = useState("");
+  const [submittedText, setSubmittedText] = useState("");
+  const [score, setScore] = useState(0);
   const hasFetched = useRef(false);
 
   const { requested_text, level, category, setExercise } = useExerciseStore();
@@ -63,20 +65,44 @@ const Submission = () => {
   const skipExercise = async () => {
     const exerciseId = useExerciseStore.getState().id;
     if(exerciseId === -1) return;
+    useExerciseStore.getState().clearExercise();
     try {
-      useExerciseStore.getState().clearExercise();
       await axiosAPI.delete(`/exercises/${exerciseId}/`);
       fetchExercise();
     } catch (error: any) {
       console.error("Failed to skip exercise", error);
     }
   };
+  const submitExercise = async () => {
+    const exerciseId = useExerciseStore.getState().id;
+    if(exerciseId === -1) return;
+    try {
+      const formData = new FormData();
+      const fileInput = fileInputRef.current;
+      if (fileInput && fileInput.files) {
+        const file = fileInput.files[0];
+        formData.append("submitted_image", file);
+        // in order to send a file - need to use FormData and type multipart/form-data
+        const response = await axiosAPI.put(`/exercises/${exerciseId}/submit/`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        setUploadedImage(response.data.submitted_image);
+        setSubmittedText(response.data.submitted_text);
+        setScore(response.data.score);
+        useExerciseStore.getState().clearExercise();
+        fetchExercise();
+      }
+    } catch (error: any) {
+      console.error("Failed to submit exercise", error);
+    }
+  }
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      submitExercise();
     }
   };
 
@@ -140,17 +166,23 @@ const Submission = () => {
 
       {/* Image Preview */}
       <div>
-        {selectedImage ? (
+        {uploadedImage ? (
+          <div>
+          <Label>
+            {"Submitted text: " + submittedText +
+             "(Score: " + Math.ceil(score * 100) + ")"}
+          </Label>
+
           <img
-            src={selectedImage}
+            src={uploadedImage}
             alt="Uploaded preview"
             style={{
               width: "200px",
               marginTop: "10px",
               borderRadius: "8px",
               objectFit: "cover",
-            }}
-          />
+            }}/>
+            </div>
         ) : (
           <p>Loading Score...</p>
         )}
