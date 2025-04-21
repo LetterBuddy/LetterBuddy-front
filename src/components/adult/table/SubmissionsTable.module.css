@@ -74,6 +74,11 @@
   background-color: #ef4444;
 }
 
+.img {
+  max-height: 30rem;
+  max-width: 30rem;
+}
+
 /* Responsive styles */
 @media (max-width: 1024px) {
   .table {
