@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import Button from "../../ui/button/Button";
 import classes from "./SubmissionsTable.module.css";
 import { HandwritingSubmission } from "./SubmissionsTable";
-import ClipLoader from "react-spinners/ClipLoader";
 
 type SubmissionsListProps = {
   sortedData: HandwritingSubmission[];
@@ -12,7 +11,6 @@ type SubmissionsListProps = {
     key: keyof HandwritingSubmission | null;
     direction: "asc" | "desc";
   };
-  isTableLoading: boolean;
 };
 
 const getScoreBadgeClass = (score: number) => {
@@ -52,7 +50,6 @@ const SubmissionsList = ({
   handleSort,
   handleViewSubmission,
   sortConfig,
-  isTableLoading
 }: SubmissionsListProps) => {
   return (
     <table className={classes.table}>
@@ -87,51 +84,45 @@ const SubmissionsList = ({
         </tr>
       </thead>
       <tbody>
-        {!isTableLoading ? (
-          sortedData.length === 0 ? (
-            <tr>
-              <td colSpan={10} className={classes.emptyState}>
-                No submissions found.
+        {sortedData.length === 0 ? (
+          <tr>
+            <td colSpan={10} className={classes.emptyState}>
+              No submissions found.
+            </td>
+          </tr>
+        ) : (
+          sortedData.map((submission, index) => (
+            <tr
+              key={submission.id}
+              className={index % 2 === 0 ? classes.rowEven : ''}
+            >
+              <td>{submission.level}</td>
+              <td>{format(submission.submission_date, "MMM dd, yyyy")}</td>
+              <td>{submission.requested_text}</td>
+              <td>
+                <span
+                  className={`${classes.badge} ${getScoreBadgeClass(
+                    submission.score
+                  )}`}
+                >
+                  {submission.score}%
+                </span>
+              </td>
+              <td style={{padding: "0"}}>
+                <Button
+                  style={{
+                    width: "4rem",
+                    height: "2rem",
+                    fontSize: "0.9rem",
+                    margin: "0.5rem",
+                  }}
+                  onClick={() => handleViewSubmission(submission.id)}
+                >
+                  View
+                </Button>
               </td>
             </tr>
-          ) : (
-            sortedData.map((submission, index) => (
-              <tr
-                key={submission.id}
-                className={index % 2 === 0 ? classes.rowEven : ""}
-              >
-                <td>{submission.level}</td>
-                <td>{format(submission.submission_date, "MMM dd, yyyy")}</td>
-                <td>{submission.requested_text}</td>
-                <td>
-                  <span
-                    className={`${classes.badge} ${getScoreBadgeClass(
-                      submission.score
-                    )}`}
-                  >
-                    {submission.score}%
-                  </span>
-                </td>
-                <td style={{ padding: "0" }}>
-                  <Button
-                    style={{
-                      width: "4rem",
-                      height: "2rem",
-                      fontSize: "0.9rem",
-                      margin: "0.5rem",
-                    }}
-                    onClick={() => handleViewSubmission(submission.id)}
-                  >
-                    View
-                  </Button>
-                </td>
-              </tr>
-            ))
-          )
-        ) : (
-          <td colSpan={10} className={classes.emptyState}>
-            <ClipLoader />
-          </td>
+          ))
         )}
       </tbody>
     </table>

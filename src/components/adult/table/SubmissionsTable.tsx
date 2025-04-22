@@ -7,7 +7,6 @@ import SubmissionsList from "./SubmissionsList";
 import { useEffect } from "react";
 import axiosAPI from "../../../axiosAPI";
 import useChildStore from "../../../store/useChildStore";
-import ClipLoader from "react-spinners/ClipLoader";
 
 export type HandwritingSubmission = {
   id: string;
@@ -58,9 +57,6 @@ export type HandwritingSubmission = {
 // ];
 
 const SubmissionsTable = () => {
-  const [isTableLoading, setIsTableLoading] = useState(false);
-  const [ isSubmissionLoading, setIsSubmissionLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [submissions, setSubmissions] = useState<HandwritingSubmission[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [submissionImageUrl, setSubmissionImageUrl] = useState("");
@@ -72,12 +68,9 @@ const SubmissionsTable = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        setIsTableLoading(true);
         const childId = useChildStore.getState().selectedChildId;
         console.log("childId:", childId);
-        const response = await axiosAPI.get(
-          `/exercises/${childId}/submissions/`
-        );
+        const response = await axiosAPI.get(`/exercises/${childId}/submissions/`);
         console.log(response.data);
         // convert score to percentage
         response.data.forEach((submission: HandwritingSubmission) => {
@@ -85,16 +78,12 @@ const SubmissionsTable = () => {
         });
         setSubmissions(response.data);
       } catch (error: any) {
-        console.error(
-          "Failed to fetch submissions",
-          error.response?.data || error.message
-        );
-      } finally {
-        setIsTableLoading(false);
+        console.error("Failed to fetch submissions", error.response?.data || error.message);
       }
-    };
+    }
     fetchSubmissions();
   }, []);
+
 
   const filteredData = submissions.filter((submission) =>
     submission.requested_text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -125,19 +114,14 @@ const SubmissionsTable = () => {
 
   const fetchSubmission = async (id: string) => {
     try {
-      setIsSubmissionLoading(true);
       const response = await axiosAPI.get(`/exercises/${id}/`);
       console.log(response.data);
       setSubmissionImageUrl(response.data.submitted_image);
     } catch (error: any) {
-      console.error(
-        "Failed to fetch submission",
-        error.response?.data || error.message
-      );
-    } finally {
-      setIsSubmissionLoading(false);
+      console.error("Failed to fetch submission", error.response?.data || error.message);
     }
-  };
+  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = (id: string) => {
     setIsModalOpen(true);
     console.log("submissionId:", id);
@@ -166,20 +150,11 @@ const SubmissionsTable = () => {
         handleSort={handleSort}
         handleViewSubmission={handleOpenModal}
         sortConfig={sortConfig}
-        isTableLoading={isTableLoading}
       />
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          {isSubmissionLoading ? (
-            <ClipLoader />
-          ) : (
-            <img
-              className={classes.img}
-              src={submissionImageUrl}
-              alt="Submission"
-            />
-            
-          )}
+          {/* TODO: Get the image from the server (cloudinary) */}
+          <img src={submissionImageUrl} alt="Submission" />
         </Modal>
       )}
     </div>
