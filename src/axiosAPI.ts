@@ -1,7 +1,8 @@
 import axios from "axios";
 import useUserStore from "./store/useUserStore";
 
-const baseURL = import.meta.env.VITE_APP_API_URL;
+// if VITE_APP_API_URL is not set as an env var - use the default one
+const baseURL = import.meta.env.VITE_APP_API_URL || 'http://127.0.0.1:8000/'
 
 const axiosAPI = axios.create({
   baseURL: baseURL,
