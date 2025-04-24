@@ -15,3 +15,6 @@ Run the following command in your terminal to clone the repository:
 
 ` npm run dev`
 
+## The frontend has also been deployed on Render:
+https://letterbuddy-front.onrender.com \
+It may be suspended currently to avoid wasting resources.
