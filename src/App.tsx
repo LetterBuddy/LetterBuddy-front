@@ -7,7 +7,7 @@ import useUserStore from './store/useUserStore';
 const SplashPage = lazy(() => import('./pages/SplashPage'));
 const UserTypePage = lazy(() => import('./pages/userTypePage/UserTypePage'));
 const AuthPage = lazy(() => import('./pages/AuthPage'));
-const Exercise = lazy(() => import('./components/child/Excercise'));
+const Exercise = lazy(() => import('./components/child/Exercise'));
 const Alphabet = lazy(() => import('./components/child/Alphabet'));
 const SubmissionsTable = lazy(() => import('./components/adult/table/SubmissionsTable'));
 const Articles = lazy(() => import('./components/adult/article/Articles'));
