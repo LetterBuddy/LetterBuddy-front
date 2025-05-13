@@ -5,7 +5,7 @@ import {
   IconVolume,
   IconPlayerSkipForwardFilled,
 } from "@tabler/icons-react";
-import classes from "./Excercise.module.css";
+import classes from "./Exercise.module.css";
 import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import axiosAPI from "../../axiosAPI";
