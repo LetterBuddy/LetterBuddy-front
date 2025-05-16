@@ -12,6 +12,7 @@ const ChildItem = ({ child }: { child: Child }) => {
     <div className={classes.childCard}>
       <div className={classes.iconContainer}>
         <IconTableExport
+          data-testid="icon-table-export"
           className={classes.icon}
           size={35}
           onClick={() => {

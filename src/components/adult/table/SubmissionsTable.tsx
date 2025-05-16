@@ -169,16 +169,16 @@ const SubmissionsTable = () => {
         isTableLoading={isTableLoading}
       />
       {isModalOpen && (
-        <Modal onClose={handleCloseModal}>
+        <Modal data-testid="submission-modal" onClose={handleCloseModal}>
           {isSubmissionLoading ? (
-            <ClipLoader />
+            <ClipLoader />  
           ) : (
             <img
+              data-testid="submission-image"
               className={classes.img}
               src={submissionImageUrl}
               alt="Submission"
             />
-            
           )}
         </Modal>
       )}

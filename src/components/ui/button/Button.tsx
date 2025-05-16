@@ -7,7 +7,8 @@ const Button: React.FC<{
   children: string;
   variant?: "default" | "white";
   style?: React.CSSProperties;
-}> = (props) => {
+  [key: string]: any; 
+}> = (props) => { 
   const buttonClasses =
     props.variant === "white"
       ? `${classes.button} ${classes.buttonWhite}`
@@ -15,6 +16,7 @@ const Button: React.FC<{
 
   return (
     <button 
+      {...props} 
       type={props.type || "button"} 
       onClick={props.onClick} 
       className={buttonClasses}

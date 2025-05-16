@@ -114,6 +114,7 @@ const SubmissionsList = ({
                 </td>
                 <td style={{ padding: "0" }}>
                   <Button
+                    data-testid={`view-submission-button-${submission.id}`}
                     style={{
                       width: "4rem",
                       height: "2rem",
