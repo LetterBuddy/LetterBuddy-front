@@ -1,6 +1,6 @@
 describe('Login Flow', () => {
   beforeEach(() => {
-    cy.visit('/auth')
+    cy.visit('/auth?signup=false')
   })
 
   it('should display login form elements', () => {
