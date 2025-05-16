@@ -50,7 +50,7 @@ const Login = () => {
         response.data.last_name,
         isLoggedUserChild
       );
-      isLoggedUserChild ? navigate("/submission") : navigate("/accounts");
+      isLoggedUserChild ? navigate("/exercise") : navigate("/accounts");
     } catch (error: any) {
       console.log("Login Failed", error.response.data);
       setError("Invalid username or password");

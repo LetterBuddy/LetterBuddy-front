@@ -16,7 +16,7 @@ const ChildAccountsPage = lazy(() => import('./pages/ChildAccountsPage'));
 const App = () => {
   const isChild = useUserStore(state => state.isChild);
   const isLoggedIn = useUserStore(state => state.isLoggedIn); 
-  const defaultPath = isChild ? "/submission" : "/accounts";
+  const defaultPath = isChild ? "/exercise" : "/accounts";
   return (
     <div>
       <Layout>
@@ -24,13 +24,13 @@ const App = () => {
             <Route path="/splash" element={!isLoggedIn ? <SplashPage /> : <Navigate to={defaultPath} />}/>
             <Route path="/userType" element={!isLoggedIn ? <UserTypePage /> : <Navigate to={defaultPath} />}/>
             <Route path="/auth" element={!isLoggedIn ? <AuthPage /> : <Navigate to={defaultPath} />}/>
-            <Route path="/submission" element={(isChild && isLoggedIn) ? <Exercise /> : <Navigate to="/splash" />} />
+            <Route path="/exercise" element={(isChild && isLoggedIn) ? <Exercise /> : <Navigate to="/splash" />} />
             <Route path="/alphabet" element={(isChild && isLoggedIn) ? <Alphabet /> : <Navigate to="/splash" />}/>
             <Route path="/table" element={(!isChild && isLoggedIn) ? <SubmissionsTable /> : <Navigate to="/splash" />} />
             <Route path="/articles" element={(!isChild && isLoggedIn) ? <Articles /> : <Navigate to="/splash" />} />
             <Route path="/accounts" element={(!isChild && isLoggedIn) ? <ChildAccountsPage /> : <Navigate to="/splash" />} />
             <Route path="*" element={!isLoggedIn ? <Navigate to="/splash" /> : 
-                                      isChild ? <Navigate to="/submission"/> : <Navigate to="/accounts"/> } />
+                                      isChild ? <Navigate to="/exercise"/> : <Navigate to="/accounts"/> } />
           </Routes>
       </Layout>
     </div>

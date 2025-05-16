@@ -57,7 +57,7 @@ describe('Login Flow', () => {
     cy.url().should('include', '/accounts')
   })
 
-  it('should navigate child users to submission page', () => {
+  it('should navigate child users to exercise page', () => {
     cy.intercept('POST', '/accounts/login/', {
       statusCode: 200,
       body: {
@@ -76,7 +76,7 @@ describe('Login Flow', () => {
     // Wait for the API call to complete
     cy.wait('@loginRequest')
 
-    cy.url().should('include', '/submission')
+    cy.url().should('include', '/exercise')
   })
 
   it('should navigate adult users to accounts page', () => {

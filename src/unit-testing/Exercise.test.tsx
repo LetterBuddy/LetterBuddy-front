@@ -1,9 +1,9 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import Submission from "../components/child/Submission";
+import Exercise from "../components/child/Exercise";
 import axiosAPI from "../axiosAPI";
 
-describe("Submission Component", () => {
+describe("Exercise Component", () => {
   it("fetches and displays the exercise word on mount", async () => {
     const mockPost = vi.spyOn(axiosAPI, "post").mockResolvedValueOnce({
       data: {
@@ -14,7 +14,7 @@ describe("Submission Component", () => {
       },
     });
 
-    render(<Submission />);
+    render(<Exercise />);
 
     await waitFor(() => {
       expect(mockPost).toHaveBeenCalledWith("/exercises/");
@@ -33,7 +33,7 @@ describe("Submission Component", () => {
       },
     });
 
-    render(<Submission />);
+    render(<Exercise />);
 
     const skipButton = screen.getByRole("button", { name: /skip-button/i });
     fireEvent.click(skipButton);

@@ -22,7 +22,7 @@ const Head = () => {
   const clearExercise  = useExerciseStore((state) => state.clearExercise);
   const { isLoading, setIsLoading } = useLoadingStore();
 
-  const isSubmissionPage = location.pathname === "/submission";
+  const isSubmissionPage = location.pathname === "/exercise";
   const isAlphabetPage = location.pathname === "/alphabet";
   const isChildAccountsPage = location.pathname === "/accounts";
 
@@ -65,7 +65,7 @@ const Head = () => {
           <IconHome
             className={classes.icon}
             size={35}
-            onClick={() => navigate("/submission")}
+            onClick={() => navigate("/exercise")}
           />
         )}
         {!isChildAccountsPage && !isChild && isLoggedIn && (
