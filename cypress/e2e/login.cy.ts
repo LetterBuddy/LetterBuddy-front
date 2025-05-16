@@ -23,7 +23,6 @@ describe('Login Flow', () => {
   })
 
   it('should successfully login with valid credentials', () => {
-    // Intercept the login API call
     cy.intercept('POST', '/accounts/login/', {
       statusCode: 200,
       body: {
@@ -35,7 +34,6 @@ describe('Login Flow', () => {
       }
     }).as('loginRequest')
 
-    // Fill in valid credentials
     cy.get('input[placeholder="User Name"]').type('validuser')
     cy.get('input[placeholder="Password"]').type('validpass123')
     cy.get('button[type="submit"]').click()
@@ -60,7 +58,6 @@ describe('Login Flow', () => {
   })
 
   it('should navigate child users to submission page', () => {
-    // Intercept the login API call with child role
     cy.intercept('POST', '/accounts/login/', {
       statusCode: 200,
       body: {
@@ -72,7 +69,6 @@ describe('Login Flow', () => {
       }
     }).as('loginRequest')
 
-    // Fill in valid credentials
     cy.get('input[placeholder="User Name"]').type('childuser')
     cy.get('input[placeholder="Password"]').type('childpass123')
     cy.get('button[type="submit"]').click()
@@ -80,12 +76,10 @@ describe('Login Flow', () => {
     // Wait for the API call to complete
     cy.wait('@loginRequest')
 
-    // Verify navigation to submission page for child users
     cy.url().should('include', '/submission')
   })
 
   it('should navigate adult users to accounts page', () => {
-    // Intercept the login API call with adult role
     cy.intercept('POST', '/accounts/login/', {
       statusCode: 200,
       body: {
@@ -97,7 +91,6 @@ describe('Login Flow', () => {
       }
     }).as('loginRequest')
 
-    // Fill in valid credentials
     cy.get('input[placeholder="User Name"]').type('adultuser')
     cy.get('input[placeholder="Password"]').type('adultpass123')
     cy.get('button[type="submit"]').click()
