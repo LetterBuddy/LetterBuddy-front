@@ -73,6 +73,7 @@ const Submission = () => {
       console.error("Failed to skip exercise", error);
     }
   };
+  
   const submitExercise = async () => {
     const exerciseId = useExerciseStore.getState().id;
     if(exerciseId === -1) return;
@@ -133,6 +134,8 @@ const Submission = () => {
           className={classes.skipIcon}
           size={30}
           onClick={skipExercise}
+          role="button"
+          aria-label="skip-button"
         />
       </div>
       <div>

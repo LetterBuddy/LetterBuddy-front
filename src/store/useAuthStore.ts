@@ -1,10 +1,15 @@
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
+// Added to fix cyprus tests
+const isBrowser = typeof window !== 'undefined';
+const initialIsSignUp =
+  isBrowser && new URLSearchParams(window.location.search).get('signup') === 'true';
+
 const useAuthStore = create(
   combine(
     {
-      isSignUp: false,
+      isSignUp: initialIsSignUp,
       isChild: false,
     },
     (set) => ({
