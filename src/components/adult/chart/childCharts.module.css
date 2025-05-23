@@ -1,0 +1,12 @@
+.childCharts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 90%;
+    height: 500px;
+}
+
+.clipLoader {
+    margin-top: 6rem;
+}

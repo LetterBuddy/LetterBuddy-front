@@ -12,6 +12,7 @@ const Alphabet = lazy(() => import('./components/child/Alphabet'));
 const SubmissionsTable = lazy(() => import('./components/adult/table/SubmissionsTable'));
 const Articles = lazy(() => import('./components/adult/article/Articles'));
 const ChildAccountsPage = lazy(() => import('./pages/ChildAccountsPage'));
+const ChildCharts = lazy(() => import('./components/adult/chart/childCharts'));
 
 const App = () => {
   const isChild = useUserStore(state => state.isChild);
@@ -27,6 +28,7 @@ const App = () => {
             <Route path="/exercise" element={(isChild && isLoggedIn) ? <Exercise /> : <Navigate to="/splash" />} />
             <Route path="/alphabet" element={(isChild && isLoggedIn) ? <Alphabet /> : <Navigate to="/splash" />}/>
             <Route path="/table" element={(!isChild && isLoggedIn) ? <SubmissionsTable /> : <Navigate to="/splash" />} />
+            <Route path="/chart" element={(!isChild && isLoggedIn) ? <ChildCharts /> : <Navigate to="/splash" />} />
             <Route path="/articles" element={(!isChild && isLoggedIn) ? <Articles /> : <Navigate to="/splash" />} />
             <Route path="/accounts" element={(!isChild && isLoggedIn) ? <ChildAccountsPage /> : <Navigate to="/splash" />} />
             <Route path="*" element={!isLoggedIn ? <Navigate to="/splash" /> : 
