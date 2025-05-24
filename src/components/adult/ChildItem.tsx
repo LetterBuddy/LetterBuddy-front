@@ -19,7 +19,14 @@ const ChildItem = ({ child }: { child: Child }) => {
             setSelectedChildId(child.id);
             navigate("/table")}}
         />
-        <IconChartBar className={classes.icon} size={35} />
+        <IconChartBar 
+          className={classes.icon} 
+          size={35}
+          onClick={() => {
+            setSelectedChildId(child.id);
+            navigate("/chart")
+          }}
+          />
       </div>
       <Label>{child.username}</Label>
     </div>

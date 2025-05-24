@@ -18,45 +18,6 @@ export type HandwritingSubmission = {
   score: number;
 };
 
-// TODO: Remove this sample data and fetch from the server
-// const sampleData: HandwritingSubmission[] = [
-//   {
-//     id: "1",
-//     submission_date: new Date("2023-05-01"),
-//     requested_text: "Hello",
-//     level: "letters",
-//     score: 85,
-//   },
-//   {
-//     id: "2",
-//     submission_date: new Date("2023-05-02"),
-//     requested_text: "World",
-//     level: "words",
-//     score: 92,
-//   },
-//   {
-//     id: "3",
-//     submission_date: new Date("2023-05-03"),
-//     requested_text: "Learning",
-//     level: "words",
-//     score: 78,
-//   },
-//   {
-//     id: "4",
-//     submission_date: new Date("2023-05-04"),
-//     requested_text: "Practice",
-//     level: "letters",
-//     score: 95,
-//   },
-//   {
-//     id: "5",
-//     submission_date: new Date("2023-05-05"),
-//     requested_text: "Handwriting",
-//     level: "category",
-//     score: 55,
-//   },
-// ];
-
 const SubmissionsTable = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
   const [ isSubmissionLoading, setIsSubmissionLoading] = useState(false);
