@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./Label.module.css";
 
 const Label: React.FC<{
-  children: string;
+  children: any;
   style?: React.CSSProperties;
 }> = (props) => {
   return (

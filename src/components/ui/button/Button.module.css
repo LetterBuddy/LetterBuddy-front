@@ -18,6 +18,11 @@
     transition: 0.3s;
 }
 
+.button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 /* Variation with white background */
 .buttonWhite {
     background-color: white;

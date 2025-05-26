@@ -1,13 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Label from "../../ui/label/Label";
-import Modal from "../../ui/modal/Modal";
 import InputForm from "../../ui/inputForm/InputForm";
 import classes from "./SubmissionsTable.module.css";
 import SubmissionsList from "./SubmissionsList";
-import { useEffect } from "react";
 import axiosAPI from "../../../axiosAPI";
 import useChildStore from "../../../store/useChildStore";
-import ClipLoader from "react-spinners/ClipLoader";
+import SubmissionModal from "./SubmissionModal";
 
 export type HandwritingSubmission = {
   id: string;
@@ -16,15 +14,17 @@ export type HandwritingSubmission = {
   //category: string; # TODO: Add this field to the server
   level: "letters" | "words" | "category";
   score: number;
+  feedback: string;
 };
 
 const SubmissionsTable = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
-  const [ isSubmissionLoading, setIsSubmissionLoading] = useState(false);
+  const [isSubmissionLoading, setIsSubmissionLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submissions, setSubmissions] = useState<HandwritingSubmission[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [submissionImageUrl, setSubmissionImageUrl] = useState("");
+  const [submissionFeedback, setSubmissionFeedback] = useState("");
   const [sortConfig, setSortConfig] = useState<{
     key: keyof HandwritingSubmission | null;
     direction: "asc" | "desc";
@@ -70,8 +70,8 @@ const SubmissionsTable = () => {
         ? -1
         : 1
       : aValue > bValue
-      ? -1
-      : 1;
+        ? -1
+        : 1;
   });
 
   const handleSort = (key: keyof HandwritingSubmission) => {
@@ -90,6 +90,7 @@ const SubmissionsTable = () => {
       const response = await axiosAPI.get(`/exercises/${id}/`);
       console.log(response.data);
       setSubmissionImageUrl(response.data.submitted_image);
+      setSubmissionFeedback(response.data.feedback);
     } catch (error: any) {
       console.error(
         "Failed to fetch submission",
@@ -129,20 +130,13 @@ const SubmissionsTable = () => {
         sortConfig={sortConfig}
         isTableLoading={isTableLoading}
       />
-      {isModalOpen && (
-        <Modal data-testid="submission-modal" onClose={handleCloseModal}>
-          {isSubmissionLoading ? (
-            <ClipLoader />  
-          ) : (
-            <img
-              data-testid="submission-image"
-              className={classes.img}
-              src={submissionImageUrl}
-              alt="Submission"
-            />
-          )}
-        </Modal>
-      )}
+      <SubmissionModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        isLoading={isSubmissionLoading}
+        imageUrl={submissionImageUrl}
+        feedback={submissionFeedback}
+      />
     </div>
   );
 };

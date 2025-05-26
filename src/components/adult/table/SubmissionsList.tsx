@@ -1,6 +1,8 @@
 import { format } from "date-fns";
 import Button from "../../ui/button/Button";
+import Label from '../../ui/label/Label'
 import classes from "./SubmissionsTable.module.css";
+import { useState } from "react";
 import { HandwritingSubmission } from "./SubmissionsTable";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -45,7 +47,13 @@ const SortableHeader = ({
         : "\u2195"}
     </span>
   </button>
-);
+)
+const paginationButtonsStyle = {
+  width: "6rem",
+  height: "2.5rem",
+  fontSize: "0.9rem",
+  margin: "0.5rem",
+};
 
 const SubmissionsList = ({
   sortedData,
@@ -54,88 +62,118 @@ const SubmissionsList = ({
   sortConfig,
   isTableLoading
 }: SubmissionsListProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   return (
-    <table className={classes.table}>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>
-            <SortableHeader
-              label="Date"
-              sortKey="submission_date"
-              handleSort={handleSort}
-              sortConfig={sortConfig}
-            />
-          </th>
-          <th>
-            <SortableHeader
-              label="Exercise"
-              sortKey="requested_text"
-              handleSort={handleSort}
-              sortConfig={sortConfig}
-            />
-          </th>
-          <th>
-            <SortableHeader
-              label="Score"
-              sortKey="score"
-              handleSort={handleSort}
-              sortConfig={sortConfig}
-            />
-          </th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {!isTableLoading ? (
-          sortedData.length === 0 ? (
-            <tr>
-              <td colSpan={10} className={classes.emptyState}>
-                No submissions found.
-              </td>
-            </tr>
-          ) : (
-            sortedData.map((submission, index) => (
-              <tr
-                key={submission.id}
-                className={index % 2 === 0 ? classes.rowEven : ""}
-              >
-                <td>{submission.level}</td>
-                <td>{format(submission.submission_date, "MMM dd, yyyy")}</td>
-                <td>{submission.requested_text}</td>
-                <td>
-                  <span
-                    className={`${classes.badge} ${getScoreBadgeClass(
-                      submission.score
-                    )}`}
-                  >
-                    {submission.score}%
-                  </span>
-                </td>
-                <td style={{ padding: "0" }}>
-                  <Button
-                    data-testid={`view-submission-button-${submission.id}`}
-                    style={{
-                      width: "4rem",
-                      height: "2rem",
-                      fontSize: "0.9rem",
-                      margin: "0.5rem",
-                    }}
-                    onClick={() => handleViewSubmission(submission.id)}
-                  >
-                    View
-                  </Button>
+    <>
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>
+              <SortableHeader
+                label="Date"
+                sortKey="submission_date"
+                handleSort={handleSort}
+                sortConfig={sortConfig}
+              />
+            </th>
+            <th>
+              <SortableHeader
+                label="Exercise"
+                sortKey="requested_text"
+                handleSort={handleSort}
+                sortConfig={sortConfig}
+              />
+            </th>
+            <th>
+              <SortableHeader
+                label="Score"
+                sortKey="score"
+                handleSort={handleSort}
+                sortConfig={sortConfig}
+              />
+            </th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {!isTableLoading ? (
+            sortedData.length === 0 ? (
+              <tr>
+                <td colSpan={10} className={classes.emptyState}>
+                  No submissions found.
                 </td>
               </tr>
-            ))
-          )
-        ) : (
-          <td colSpan={10} className={classes.emptyState}>
-            <ClipLoader />
-          </td>
-        )}
-      </tbody>
-    </table>
+            ) : (
+              paginatedData.map((submission, index) => (
+                <tr
+                  key={submission.id}
+                  className={index % 2 === 0 ? classes.rowEven : ""}
+                >
+                  <td>{submission.level}</td>
+                  <td>{format(submission.submission_date, "MMM dd, yyyy")}</td>
+                  <td>{submission.requested_text}</td>
+                  <td>
+                    <span
+                      className={`${classes.badge} ${getScoreBadgeClass(
+                        submission.score
+                      )}`}
+                    >
+                      {submission.score}%
+                    </span>
+                  </td>
+                  <td style={{ padding: "0" }}>
+                    <Button
+                      data-testid={`view-submission-button-${submission.id}`}
+                      style={{
+                        width: "4rem",
+                        height: "2rem",
+                        fontSize: "0.9rem",
+                        margin: "0.5rem",
+                      }}
+                      onClick={() => handleViewSubmission(submission.id)}
+                    >
+                      View
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            )
+          ) : (
+            <tr>
+              <td colSpan={10} className={classes.emptyState}>
+                <ClipLoader />
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      {sortedData.length > 0 && <div className={classes.pagination}>
+        <Button
+          style={paginationButtonsStyle}
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          Previous
+        </Button>
+        <Label>
+          Page {currentPage} of {Math.ceil(sortedData.length / itemsPerPage)}
+        </Label>
+        <Button
+          style={paginationButtonsStyle}
+          disabled={currentPage === Math.ceil(sortedData.length / itemsPerPage)}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Next
+        </Button>
+      </div>
+      }
+    </>
   );
 };
 
