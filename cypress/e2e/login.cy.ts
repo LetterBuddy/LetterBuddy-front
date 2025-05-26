@@ -16,9 +16,20 @@ describe('Login Flow', () => {
   })
 
   it('should show error for invalid credentials', () => {
+    cy.intercept('POST', '/accounts/login/', {
+      statusCode: 401,
+      body: {
+        detail: 'Invalid username or password'
+      }
+    }).as('loginFailedRequest')
+
     cy.get('input[placeholder="User Name"]').type('wronguser')
     cy.get('input[placeholder="Password"]').type('wrongpass123')
     cy.get('button[type="submit"]').click()
+
+    // Wait for the API call to complete
+    cy.wait('@loginFailedRequest')
+
     cy.contains('Invalid username or password').should('be.visible')
   })
 
