@@ -43,6 +43,10 @@
   cursor: pointer;
 }
 
+.clipLoader {
+  margin-top: 0.8rem;
+}
+
 .submission .skipIcon:hover {
   scale: 1.15;
   transition: all 0.5s ease;

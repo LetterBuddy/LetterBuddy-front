@@ -10,9 +10,11 @@ import Label from "../ui/label/Label";
 import Button from "../ui/button/Button";
 import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
+import ClipLoader from "react-spinners/ClipLoader";
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
 const Submission = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [score, setScore] = useState(0);
@@ -43,6 +45,7 @@ const Submission = () => {
   // will be used again after the exercise is submitted
   // TODO add some loading state here - if not - will need to clear exercise store after logout
   const fetchExercise = async () => {
+    setIsLoading(true)
     try {
       const response = await axiosAPI.post("/exercises/");
       setExercise(
@@ -53,6 +56,8 @@ const Submission = () => {
       );
     } catch (error: any) {
       console.error("Failed to fetch exercise", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -63,8 +68,9 @@ const Submission = () => {
   }, []);
 
   const skipExercise = async () => {
+    setIsLoading(true);
     const exerciseId = useExerciseStore.getState().id;
-    if(exerciseId === -1) return;
+    if (exerciseId === -1) return;
     useExerciseStore.getState().clearExercise();
     try {
       await axiosAPI.delete(`/exercises/${exerciseId}/`);
@@ -73,10 +79,11 @@ const Submission = () => {
       console.error("Failed to skip exercise", error);
     }
   };
-  
+
+
   const submitExercise = async () => {
     const exerciseId = useExerciseStore.getState().id;
-    if(exerciseId === -1) return;
+    if (exerciseId === -1) return;
     try {
       const formData = new FormData();
       const fileInput = fileInputRef.current;
@@ -122,7 +129,13 @@ const Submission = () => {
     <section className={classes.submission}>
       <div>
         <IconWritingSign stroke={2} size={40} />
-        <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>
+        {level == "words" &&
+          <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>}
+        {level == "category" &&
+          <Label>{"Please write a word from category:" + category}</Label>}
+        {isLoading && (
+          <ClipLoader loading={isLoading} className={classes.clipLoader} />
+        )}
         {"speechSynthesis" in window && (
           <IconVolume
             className={classes.volumeIcon}
@@ -171,23 +184,23 @@ const Submission = () => {
       <div>
         {uploadedImage ? (
           <div>
-          <Label>
-            {"Submitted text: " + submittedText +
-             "(Score: " + Math.ceil(score * 100) + ")"}
-          </Label>
+            <Label>
+              {"Submitted text: " + submittedText +
+                "(Score: " + Math.ceil(score * 100) + ")"}
+            </Label>
 
-          <img
-            src={uploadedImage}
-            alt="Uploaded preview"
-            style={{
-              width: "200px",
-              marginTop: "10px",
-              borderRadius: "8px",
-              objectFit: "cover",
-            }}/>
-            </div>
+            <img
+              src={uploadedImage}
+              alt="Uploaded preview"
+              style={{
+                width: "200px",
+                marginTop: "10px",
+                borderRadius: "8px",
+                objectFit: "cover",
+              }} />
+          </div>
         ) : (
-          <p>Loading Score...</p>
+          <p>Grab a sheet of plain paper and start writing :)</p>
         )}
       </div>
     </section>
