@@ -25,6 +25,7 @@ const SubmissionsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [submissionImageUrl, setSubmissionImageUrl] = useState("");
   const [submissionFeedback, setSubmissionFeedback] = useState("");
+  const childId = useChildStore.getState().selectedChildId;
   const [sortConfig, setSortConfig] = useState<{
     key: keyof HandwritingSubmission | null;
     direction: "asc" | "desc";
@@ -34,7 +35,6 @@ const SubmissionsTable = () => {
     const fetchSubmissions = async () => {
       try {
         setIsTableLoading(true);
-        const childId = useChildStore.getState().selectedChildId;
         console.log("childId:", childId);
         const response = await axiosAPI.get(
           `/exercises/${childId}/submissions/`

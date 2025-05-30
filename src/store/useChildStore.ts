@@ -7,7 +7,7 @@ export interface Child {
     last_name: string;
     exercise_level: string;
 }
-    
+
 interface ChildStore {
     children: Child[];
     setChildren: (children: Child[]) => void;
@@ -20,12 +20,19 @@ interface ChildStore {
 
 const useChildStore = create<ChildStore>((set) => ({
     children: [],
-    selectedChildId: null,
+    selectedChildId: localStorage.getItem("selectedChildId") ? Number(localStorage.getItem("selectedChildId")) : null,
     setChildren: (children) => set({ children }),
     addChild: (child) => set((state) => ({ children: [...state.children, child] })),
     removeChild: (childId) => set((state) => ({ children: state.children.filter(child => child.id !== childId) })),
-    removeAllChildren: () => set({ children: []}),
-    setSelectedChildId: (id) => set({ selectedChildId: id }),
+    removeAllChildren: () => set({ children: [] }),
+    setSelectedChildId: (id) => {
+        if (id === null) {
+            localStorage.removeItem("selectedChildId");
+        } else {
+            localStorage.setItem("selectedChildId", String(id));
+        }
+        set({ selectedChildId: id });
+    },
 }));
 
 export default useChildStore;
