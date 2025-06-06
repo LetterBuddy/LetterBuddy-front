@@ -22,6 +22,11 @@
   width: 100%;
 }
 
+.submission .writingIcon {
+  position: absolute;
+  top: 0.8rem;
+}
+
 .submission .volumeIcon {
   position: absolute;
   top: 0.75rem;
@@ -44,7 +49,7 @@
 }
 
 .clipLoader {
-  margin-top: 0.8rem;
+  margin-top: 1.5rem;
 }
 
 .submission .skipIcon:hover {

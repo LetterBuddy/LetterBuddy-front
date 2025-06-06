@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Camera from "../ui/camera/Camera";
 import {
   IconWritingSign,
   IconCloudUpload,
@@ -18,6 +19,7 @@ const Submission = () => {
   const [uploadedImage, setUploadedImage] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [score, setScore] = useState(0);
+  const [showCamera, setShowCamera] = useState(false);
   const hasFetched = useRef(false);
 
   const { requested_text, level, category, setExercise } = useExerciseStore();
@@ -114,9 +116,17 @@ const Submission = () => {
     }
   };
 
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone/i.test(navigator.userAgent);
+  };
+
   const openCamera = () => {
-    if (cameraInputRef.current) {
-      cameraInputRef.current.click();
+    if (isMobileDevice()) {
+      if (cameraInputRef.current) {
+        cameraInputRef.current.click();
+      }
+    } else {
+      setShowCamera(true);
     }
   };
 
@@ -126,84 +136,94 @@ const Submission = () => {
     }
   };
   return (
-    <section className={classes.submission}>
-      <div>
-        <IconWritingSign stroke={2} size={40} />
-        {level == "words" &&
-          <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>}
-        {level == "category" &&
-          <Label>{"Please write a word from category:" + category}</Label>}
-        {isLoading && (
-          <ClipLoader loading={isLoading} className={classes.clipLoader} />
-        )}
-        {"speechSynthesis" in window && (
-          <IconVolume
-            className={classes.volumeIcon}
-            size={35}
-            onClick={() => readExercise()}
-          />
-        )}
-        <IconPlayerSkipForwardFilled
-          className={classes.skipIcon}
-          size={30}
-          onClick={skipExercise}
-          role="button"
-          aria-label="skip-button"
+    <>
+      {showCamera && (
+        <Camera
+          onCapture={(file) => {
+            const event = { target: { files: [file] } };
+            handleFileChange(event);
+          }}
+          onClose={() => setShowCamera(false)}
         />
-      </div>
-      <div>
-        <IconCloudUpload stroke={2} size={40} />
-        <p>Upload handwriting image</p>
-        <section>
-          <input
-            ref={cameraInputRef}
-            type="file"
-            accept="image/*"
-            capture="environment" // For mobile camera only
-            onChange={handleFileChange}
-            style={{ display: "none" }}
+      )}
+
+      <section className={classes.submission}>
+        <div>
+          <IconWritingSign stroke={2} size={40} className={classes.writingIcon} />
+          {level == "words" &&
+            <Label style={{ fontSize: "2.2rem" }}>{requested_text}</Label>}
+          {level == "category" &&
+            <Label>{"Please write a word from category:" + category}</Label>}
+          {isLoading && (
+            <ClipLoader loading={isLoading} className={classes.clipLoader} />
+          )}
+          {"speechSynthesis" in window && (
+            <IconVolume
+              className={classes.volumeIcon}
+              size={35}
+              onClick={() => readExercise()}
+            />
+          )}
+          <IconPlayerSkipForwardFilled
+            className={classes.skipIcon}
+            size={30}
+            onClick={skipExercise}
+            role="button"
+            aria-label="skip-button"
           />
-          <Button style={buttonsStyle} onClick={openCamera}>
-            Capture Photo
-          </Button>
-
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-          <Button style={buttonsStyle} onClick={openFilePicker}>
-            Upload from Gallery
-          </Button>
-        </section>
-      </div>
-
-      {/* Image Preview */}
-      <div>
-        {uploadedImage ? (
-          <div>
-            <Label>
-              {"Submitted text: " + submittedText +
-                "(Score: " + Math.ceil(score * 100) + ")"}
-            </Label>
-
-            <img
-              src={uploadedImage}
-              alt="Uploaded preview"
-              style={{
-                width: "200px",
-                marginTop: "10px",
-                borderRadius: "8px",
-                objectFit: "cover",
-              }} />
-          </div>
-        ) : (
-          <p>Grab a sheet of plain paper and start writing :)</p>
-        )}
-      </div>
-    </section>
+        </div>
+        <div>
+          <IconCloudUpload stroke={2} size={40} />
+          <p>Upload handwriting image</p>
+          <section>
+            {isMobileDevice() && <input
+              ref={cameraInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment" // For mobile camera only
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />}
+            <Button style={buttonsStyle} onClick={openCamera}>
+              Capture Photo
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              capture={isMobileDevice() ? 'environment' : undefined}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+            <Button style={buttonsStyle} onClick={openFilePicker}>
+              Upload from Gallery
+            </Button>
+          </section>
+        </div>
+        {/* Image Preview */}
+        <div>
+          {uploadedImage ? (
+            <div>
+              <Label>
+                {"Submitted text: " + submittedText +
+                  "(Score: " + Math.ceil(score * 100) + ")"}
+              </Label>
+              <img
+                src={uploadedImage}
+                alt="Uploaded preview"
+                style={{
+                  width: "200px",
+                  marginTop: "10px",
+                  borderRadius: "8px",
+                  objectFit: "cover",
+                }} />
+            </div>
+          ) : (
+            <p>Grab a sheet of plain paper and start writing :)</p>
+          )}
+        </div>
+      </section>
+    </>
   );
 };
 
