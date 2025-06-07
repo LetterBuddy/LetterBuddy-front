@@ -104,6 +104,11 @@ const Submission = () => {
         setScore(response.data.score);
         useExerciseStore.getState().clearExercise();
         fetchExercise();
+        
+        // Clear the file input after successful submission
+        if (fileInput) {
+          fileInput.value = '';
+        }
       }
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
@@ -116,6 +121,12 @@ const Submission = () => {
     const file = event.target.files[0];
     if (file) {
       submitExercise();
+    } else {
+      // Clear the file input if no file was selected
+      const fileInput = event.target;
+      if (fileInput) {
+        fileInput.value = '';
+      }
     }
   };
 
