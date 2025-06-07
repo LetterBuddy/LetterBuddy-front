@@ -11,10 +11,12 @@ import Button from "../ui/button/Button";
 import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
 import ClipLoader from "react-spinners/ClipLoader";
+import myPen from '../../assets/myPen.gif';
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
 const Submission = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmissionLoading, setIsSubmissionLoading] = useState(false);
   const [uploadedImage, setUploadedImage] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [score, setScore] = useState(0);
@@ -85,6 +87,7 @@ const Submission = () => {
     const exerciseId = useExerciseStore.getState().id;
     if (exerciseId === -1) return;
     try {
+      setIsSubmissionLoading(true);
       const formData = new FormData();
       const fileInput = fileInputRef.current;
       if (fileInput && fileInput.files) {
@@ -105,6 +108,7 @@ const Submission = () => {
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
     }
+    setIsSubmissionLoading(false);
   }
 
   const handleFileChange = (event: any) => {
@@ -182,26 +186,27 @@ const Submission = () => {
 
       {/* Image Preview */}
       <div>
-        {uploadedImage ? (
-          <div>
-            <Label>
-              {"Submitted text: " + submittedText +
-                "(Score: " + Math.ceil(score * 100) + ")"}
-            </Label>
+        {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
+          uploadedImage ? (
+            <div>
+              <Label>
+                {"Submitted text: " + submittedText +
+                  "(Score: " + Math.ceil(score * 100) + ")"}
+              </Label>
 
-            <img
-              src={uploadedImage}
-              alt="Uploaded preview"
-              style={{
-                width: "200px",
-                marginTop: "10px",
-                borderRadius: "8px",
-                objectFit: "cover",
-              }} />
-          </div>
-        ) : (
-          <p>Grab a sheet of plain paper and start writing :)</p>
-        )}
+              <img
+                src={uploadedImage}
+                alt="Uploaded preview"
+                style={{
+                  width: "200px",
+                  marginTop: "10px",
+                  borderRadius: "8px",
+                  objectFit: "cover",
+                }} />
+            </div>
+          ) : (
+            <p>Grab a sheet of plain paper and start writing :)</p>
+          )}
       </div>
     </section>
   );
