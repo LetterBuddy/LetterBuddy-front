@@ -21,7 +21,7 @@ describe('Child Exercise Flow', () => {
       } : {
         id: 'bbbb123',
         requested_text: 'bbbb',
-        level: 'words',
+        level: 'letters',
         category: null
       };
       
