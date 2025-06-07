@@ -107,8 +107,9 @@ const Submission = () => {
       }
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
+    } finally {
+      setIsSubmissionLoading(false);
     }
-    setIsSubmissionLoading(false);
   }
 
   const handleFileChange = (event: any) => {
