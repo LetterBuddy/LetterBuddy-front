@@ -14,13 +14,13 @@ describe('Child Exercise Flow', () => {
     let isFirstExercise = true;
     cy.intercept('POST', '/exercises/', (req) => {
       const response = isFirstExercise ? {
-        id: 'hello123',
-        requested_text: 'Hello',
-        level: 'words',
+        id: 'aaaa123',
+        requested_text: 'aaaa',
+        level: 'letters',
         category: null
       } : {
-        id: 'world123',
-        requested_text: 'World',
+        id: 'bbbb123',
+        requested_text: 'bbbb',
         level: 'words',
         category: null
       };
@@ -33,12 +33,12 @@ describe('Child Exercise Flow', () => {
     }).as('getExercise')
 
     // Mock skip exercise
-    cy.intercept('DELETE', '/exercises/hello123/', {
+    cy.intercept('DELETE', '/exercises/aaaa123/', {
       statusCode: 204
     }).as('skipExercise')
 
     // Mock exercise submission
-    cy.intercept('PUT', '/exercises/hello123/submit/', (req) => {
+    cy.intercept('PUT', '/exercises/aaaa123/submit/', (req) => {
       // Verify that we're sending an image file
       expect(req.headers['content-type']).to.include('multipart/form-data')
       
@@ -46,7 +46,7 @@ describe('Child Exercise Flow', () => {
         statusCode: 200,
         body: {
           submitted_image: 'mock_image_url',
-          submitted_text: 'Hello',
+          submitted_text: 'aaaa',
           score: 0.85
         }
       })
@@ -68,14 +68,14 @@ describe('Child Exercise Flow', () => {
     cy.get('[aria-label="skip-button"]').click()
     cy.wait('@skipExercise')
     
-    // Should get new exercise with 'World'
+    // Should get new exercise with 'bbbb'
     cy.wait('@getExercise')
-    cy.contains('World').should('be.visible')
+    cy.contains('bbbb').should('be.visible')
   })
 
   it('should submit exercise with image', () => {
     // Initial exercise should be visible
-    cy.contains('Hello', { timeout: 10000 }).should('be.visible')
+    cy.contains('aaaa', { timeout: 10000 }).should('be.visible')
     
     // Upload image for exercise
     cy.get('input[type="file"]').first().selectFile({
