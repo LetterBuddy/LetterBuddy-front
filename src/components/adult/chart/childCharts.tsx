@@ -21,10 +21,10 @@ const ChildCharts = () => {
                 setIsLettersLoading(true);
                 const childId = useChildStore.getState().selectedChildId;
                 const response = await axiosAPI.get(
-                    `/exercises/stats/${childId}/letters`
+                    `/exercises/stats/${childId}`
                 );
                 console.log(response.data);
-                setLetterStats(response.data);
+                setLetterStats(response.data.letter_scores);
             } catch (error: any) {
                 console.error(
                     "Failed to fetch letter stats",
