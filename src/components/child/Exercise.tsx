@@ -66,6 +66,7 @@ const Submission = () => {
     if (!hasFetched.current && requested_text === "") {
       hasFetched.current = true;
       fetchExercise();
+
     }
   }, []);
 
@@ -134,10 +135,10 @@ const Submission = () => {
     <section className={classes.submission}>
       <div>
         <IconWritingSign stroke={2} size={40} className={classes.writingIcon} />
-        {level == "words" || level == "letters" &&
+        {(level == "words" || level == "letters") &&
           <Label style={{ fontSize: "2rem", marginTop: "1.5rem" }}>{requested_text}</Label>}
         {level == "category" &&
-          <Label>{"Please write a word from category:" + category}</Label>}
+          <Label>{"Please write a word from category: " + category}</Label>}
         {isLoading && (
           <ClipLoader loading={isLoading} className={classes.clipLoader} />
         )}
