@@ -27,7 +27,7 @@ const ChildCharts = () => {
                 setIsLoading(true);
                 const childId = useChildStore.getState().selectedChildId;
                 const response = await axiosAPI.get(
-                    `/exercises/stats/${childId}`
+                    `/exercises/stats/${childId}/`
                 );
                 console.log(response.data);
                 setLetterStats(response.data.letter_scores);
