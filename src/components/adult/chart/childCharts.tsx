@@ -5,7 +5,6 @@ import axiosAPI from "../../../axiosAPI";
 import useChildStore from "../../../store/useChildStore";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { C } from 'vitest/dist/chunks/reporters.d.79o4mouw.js';
 
 interface Letter {
     letter: string;
@@ -115,7 +114,7 @@ const ChildCharts = () => {
                             dataKey={(entry) => `${entry.letter} was confused with ${entry.confused_with}`}/>
                             <YAxis />
                             <Tooltip
-                               formatter={(value, name, entry) => {
+                               formatter={(value, _, entry) => {
                                     const times = entry?.payload?.times;
                                     return [
                                         `Confusion Percentage: ${value} (Confused ${times} times)`,
