@@ -11,11 +11,11 @@ export type HandwritingSubmission = {
   id: string;
   submission_date: Date;
   requested_text: string;
-  //category: string; # TODO: Add this field to the server
+  category: string;
   level: "letters" | "words" | "category";
   score: number;
-  feedback: string;
 };
+
 
 const SubmissionsTable = () => {
   const [isTableLoading, setIsTableLoading] = useState(false);
@@ -43,6 +43,8 @@ const SubmissionsTable = () => {
         // convert score to percentage
         response.data.forEach((submission: HandwritingSubmission) => {
           submission.score = Math.ceil(submission.score * 100);
+          if(submission.level === "category")
+            submission.requested_text = submission.category;
         });
         setSubmissions(response.data);
       } catch (error: any) {
