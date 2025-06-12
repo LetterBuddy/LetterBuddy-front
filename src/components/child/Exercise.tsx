@@ -83,36 +83,41 @@ const Submission = () => {
   };
 
 
-  const submitExercise = async () => {
+  const submitExercise = async (file?: File) => {
     const exerciseId = useExerciseStore.getState().id;
     if (exerciseId === -1) return;
     try {
       const formData = new FormData();
       const fileInput = fileInputRef.current;
-      if (fileInput && fileInput.files) {
-        const file = fileInput.files[0];
-        formData.append("submitted_image", file);
-        // in order to send a file - need to use FormData and type multipart/form-data
-        const response = await axiosAPI.put(`/exercises/${exerciseId}/submit/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        setUploadedImage(response.data.submitted_image);
-        setSubmittedText(response.data.submitted_text);
-        setScore(response.data.score);
-        useExerciseStore.getState().clearExercise();
-        fetchExercise();
+      if (!file && fileInput && fileInput.files) {
+        file = fileInput.files[0];
       }
+      if (!file) {
+        console.error("No file selected");
+        return;
+      }
+      formData.append("submitted_image", file);
+      // in order to send a file - need to use FormData and type multipart/form-data
+      const response = await axiosAPI.put(`/exercises/${exerciseId}/submit/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setUploadedImage(response.data.submitted_image);
+      setSubmittedText(response.data.submitted_text);
+      setScore(response.data.score);
+      useExerciseStore.getState().clearExercise();
+      fetchExercise();
+      
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
     }
   }
 
   const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file) {
-      submitExercise();
+      submitExercise(file);
     }
   };
 
@@ -140,8 +145,7 @@ const Submission = () => {
       {showCamera && (
         <Camera
           onCapture={(file) => {
-            const event = { target: { files: [file] } };
-            handleFileChange(event);
+            submitExercise(file);
           }}
           onClose={() => setShowCamera(false)}
         />
