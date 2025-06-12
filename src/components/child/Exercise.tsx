@@ -195,7 +195,6 @@ const Submission = () => {
               ref={fileInputRef}
               type="file"
               accept="image/*"
-              capture={isMobileDevice() ? 'environment' : undefined}
               onChange={handleFileChange}
               style={{ display: "none" }}
             />
