@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import Camera from "../ui/camera/Camera";
 import {
   IconWritingSign,
   IconCloudUpload,
@@ -20,6 +21,7 @@ const Submission = () => {
   const [uploadedImage, setUploadedImage] = useState("");
   const [submittedText, setSubmittedText] = useState("");
   const [score, setScore] = useState(0);
+  const [showCamera, setShowCamera] = useState(false);
   const hasFetched = useRef(false);
 
   const { requested_text, level, category, setExercise } = useExerciseStore();
@@ -84,28 +86,33 @@ const Submission = () => {
   };
 
 
-  const submitExercise = async () => {
+  const submitExercise = async (file?: File) => {
     const exerciseId = useExerciseStore.getState().id;
     if (exerciseId === -1) return;
     try {
       setIsSubmissionLoading(true);
       const formData = new FormData();
       const fileInput = fileInputRef.current;
-      if (fileInput && fileInput.files) {
-        const file = fileInput.files[0];
-        formData.append("submitted_image", file);
-        // in order to send a file - need to use FormData and type multipart/form-data
-        const response = await axiosAPI.put(`/exercises/${exerciseId}/submit/`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        setUploadedImage(response.data.submitted_image);
-        setSubmittedText(response.data.submitted_text);
-        setScore(response.data.score);
-        useExerciseStore.getState().clearExercise();
-        fetchExercise();
+      if (!file && fileInput && fileInput.files) {
+        file = fileInput.files[0];
       }
+      if (!file) {
+        console.error("No file selected");
+        return;
+      }
+      formData.append("submitted_image", file);
+      // in order to send a file - need to use FormData and type multipart/form-data
+      const response = await axiosAPI.put(`/exercises/${exerciseId}/submit/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setUploadedImage(response.data.submitted_image);
+      setSubmittedText(response.data.submitted_text);
+      setScore(response.data.score);
+      useExerciseStore.getState().clearExercise();
+      fetchExercise();
+      
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
     } finally {
@@ -114,15 +121,23 @@ const Submission = () => {
   }
 
   const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file) {
-      submitExercise();
+      submitExercise(file);
     }
   };
 
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone/i.test(navigator.userAgent);
+  };
+
   const openCamera = () => {
-    if (cameraInputRef.current) {
-      cameraInputRef.current.click();
+    if (isMobileDevice()) {
+      if (cameraInputRef.current) {
+        cameraInputRef.current.click();
+      }
+    } else {
+      setShowCamera(true);
     }
   };
 
@@ -132,70 +147,82 @@ const Submission = () => {
     }
   };
   return (
-    <section className={classes.submission}>
-      <div>
-        <IconWritingSign stroke={2} size={40} className={classes.writingIcon} />
-        {(level == "words" || level == "letters") &&
-          <Label style={{ fontSize: "2rem", marginTop: "1.5rem" }}>{requested_text}</Label>}
-        {level == "category" &&
-          <Label>{"Please write a word from category: " + category}</Label>}
-        {isLoading && (
-          <ClipLoader loading={isLoading} className={classes.clipLoader} />
-        )}
-        {"speechSynthesis" in window && (
-          <IconVolume
-            className={classes.volumeIcon}
-            size={35}
-            onClick={() => readExercise()}
-          />
-        )}
-        <IconPlayerSkipForwardFilled
-          className={classes.skipIcon}
-          size={30}
-          onClick={skipExercise}
-          role="button"
-          aria-label="skip-button"
+    <>
+      {showCamera && (
+        <Camera
+          onCapture={(file) => {
+            submitExercise(file);
+          }}
+          onClose={() => setShowCamera(false)}
         />
-      </div>
-      <div>
-        <IconCloudUpload stroke={2} size={40} />
-        <p>Upload handwriting image</p>
-        <section>
-          <input
-            ref={cameraInputRef}
-            type="file"
-            accept="image/*"
-            capture="environment" // For mobile camera only
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-          <Button style={buttonsStyle} onClick={openCamera}>
-            Capture Photo
-          </Button>
+      )}
 
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
+      <section className={classes.submission}>
+        <div>
+          <IconWritingSign stroke={2} size={40} className={classes.writingIcon} />
+          {level == "words" &&
+            <Label style={{ fontSize: "2.2rem", marginTop: "1.5rem" }}>{requested_text}</Label>}
+          {level == "category" &&
+          <section className={classes.categorySection}>
+            <label>Please write a word from category</label>
+            <Label style={{ fontSize: "2rem"}}>{category}</Label>
+          </section>}
+          {isLoading && (
+            <ClipLoader loading={isLoading} className={classes.clipLoader} />
+          )}
+          {"speechSynthesis" in window && (
+            <IconVolume
+              className={classes.volumeIcon}
+              size={35}
+              onClick={() => readExercise()}
+            />
+          )}
+          <IconPlayerSkipForwardFilled
+            className={classes.skipIcon}
+            size={30}
+            onClick={skipExercise}
+            role="button"
+            aria-label="skip-button"
           />
-          <Button style={buttonsStyle} onClick={openFilePicker}>
-            Upload from Gallery
-          </Button>
-        </section>
-      </div>
-
-      {/* Image Preview */}
-      <div>
-        {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
-          uploadedImage ? (
-            <div>
+        </div>
+        <div>
+          <IconCloudUpload stroke={2} size={40} />
+          <p>Upload handwriting image</p>
+          <section>
+            {isMobileDevice() && <input
+              ref={cameraInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment" // For mobile camera only
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />}
+            <Button style={buttonsStyle} onClick={openCamera}>
+              Capture Photo
+            </Button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+            <Button style={buttonsStyle} onClick={openFilePicker}>
+              Upload from Gallery
+            </Button>
+          </section>
+        </div>
+        {/* Image Preview */}
+        {isSubmissionLoading ? (
+          <ClipLoader loading={isSubmissionLoading} className={classes.clipLoader} />
+        ) : (
+          <div>
+            {uploadedImage ? (
+              <div>
               <Label>
                 {"Submitted text: " + submittedText +
                   "(Score: " + Math.ceil(score * 100) + ")"}
               </Label>
-
               <img
                 src={uploadedImage}
                 alt="Uploaded preview"
@@ -209,8 +236,10 @@ const Submission = () => {
           ) : (
             <p>Grab a sheet of plain paper and start writing :)</p>
           )}
-      </div>
-    </section>
+        </div>
+        )}
+      </section>
+    </>
   );
 };
 
