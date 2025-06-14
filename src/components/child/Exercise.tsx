@@ -14,7 +14,6 @@ import useExerciseStore from "../../store/useExerciseStore";
 import ClipLoader from "react-spinners/ClipLoader";
 import myPen from '../../assets/myPen.gif';
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
-
 const Submission = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmissionLoading, setIsSubmissionLoading] = useState(false);
@@ -107,6 +106,7 @@ const Submission = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(response.data);
       setUploadedImage(response.data.submitted_image);
       setSubmittedText(response.data.submitted_text);
       setScore(response.data.score);
@@ -216,24 +216,15 @@ const Submission = () => {
         <div>
         {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
             uploadedImage ? (
-              <div>
-              <Label>
-                {"Submitted text: " + submittedText +
-                  "(Score: " + Math.ceil(score * 100) + ")"}
-              </Label>
-              <img
-                src={uploadedImage}
-                alt="Uploaded preview"
-                style={{
-                  width: "200px",
-                  marginTop: "10px",
-                  borderRadius: "8px",
-                  objectFit: "cover",
-                }} />
-            </div>
-          ) : (
-            <p>Grab a sheet of plain paper and start writing :)</p>
-          )}
+                // <p>{"Our Score: " + Math.ceil(score * 100)}</p> */
+                <label>
+                  {score >= 0.7 ? "Amazing job! Your handwriting is fantastic!⭐ " :
+                   score >= 0.4 ? "Good effort! Keep practicing to get even better!👍" :
+                   "Keep practicing, you'll get there! 💪"}
+                </label>
+            ) : (
+              <label>Grab a sheet of plain paper and start writing :)</label>
+            )}
         </div>
       </section>
     </>
