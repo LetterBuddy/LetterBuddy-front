@@ -160,7 +160,7 @@ const Submission = () => {
       <section className={classes.submission}>
         <div>
           <IconWritingSign stroke={2} size={40} className={classes.writingIcon} />
-          {level == "words" &&
+          {(level == "words" || level == "letters") &&
             <Label style={{ fontSize: "2.2rem", marginTop: "1.5rem" }}>{requested_text}</Label>}
           {level == "category" &&
           <section className={classes.categorySection}>
