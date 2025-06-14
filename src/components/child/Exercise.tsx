@@ -13,75 +13,34 @@ import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
 import ClipLoader from "react-spinners/ClipLoader";
 import myPen from '../../assets/myPen.gif';
+import { getLetterFeedback, readExercise, fetchExercise, skipExercise, isMobileDevice } from './ExerciseUtils';
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
+
 const Submission = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmissionLoading, setIsSubmissionLoading] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState("");
-  const [submittedText, setSubmittedText] = useState("");
-  const [score, setScore] = useState(0);
   const [showCamera, setShowCamera] = useState(false);
   const hasFetched = useRef(false);
+  const [uploadedImage, setUploadedImage] = useState("");
+  const [score, setScore] = useState(0);
+  const [letterFeedback, setLetterFeedback] = useState("");
 
   const { requested_text, level, category, setExercise } = useExerciseStore();
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  // if speechSynthesis is not supported, the volume button will not be rendered
-  // TODO there are two options to enum for the level(start with capital letter or not) - discuss
-  const readExercise = () => {
-    if (!("speechSynthesis" in window)) return;
-    let guidingText = "";
-    if (level == "letters")
-      // TODO maybe state if the letter is uppercase or lowercase
-      guidingText =
-        "Please write the letter " +
-        requested_text[0] +
-        requested_text.length +
-        " times.";
-    else if (level == "words") guidingText = requested_text;
-    else if (level == "category")
-      guidingText = "Please write a word from the category: " + category;
-    const utterance = new SpeechSynthesisUtterance(guidingText);
-    utterance.lang = "en-US";
-    speechSynthesis.speak(utterance);
-  };
-  // will be used again after the exercise is submitted
-  // TODO add some loading state here - if not - will need to clear exercise store after logout
-  const fetchExercise = async () => {
-    setIsLoading(true)
-    try {
-      const response = await axiosAPI.post("/exercises/");
-      setExercise(
-        response.data.id,
-        response.data.requested_text,
-        response.data.level,
-        response.data.category
-      );
-    } catch (error: any) {
-      console.error("Failed to fetch exercise", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
   useEffect(() => {
     if (!hasFetched.current && requested_text === "") {
       hasFetched.current = true;
-      fetchExercise();
-
+      fetchExercise(setIsLoading, setExercise);
     }
   }, []);
 
-  const skipExercise = async () => {
-    setIsLoading(true);
-    const exerciseId = useExerciseStore.getState().id;
-    if (exerciseId === -1) return;
-    useExerciseStore.getState().clearExercise();
-    try {
-      await axiosAPI.delete(`/exercises/${exerciseId}/`);
-      fetchExercise();
-    } catch (error: any) {
-      console.error("Failed to skip exercise", error);
-    }
+  const handleReadExercise = () => {
+    readExercise(level, requested_text, category);
+  };
+
+  const handleSkipExercise = () => {
+    skipExercise(setIsLoading);
   };
 
 
@@ -108,10 +67,18 @@ const Submission = () => {
       });
       console.log(response.data);
       setUploadedImage(response.data.submitted_image);
-      setSubmittedText(response.data.submitted_text);
       setScore(response.data.score);
+      
+      // Generate letter feedback if score is below 0.7
+      if (response.data.score < 0.7) {
+        const feedback = getLetterFeedback(response.data.letter_scores, response.data.submitted_text, response.data.requested_text);
+        setLetterFeedback(feedback);
+      } else {
+        setLetterFeedback("");
+      }
+      
       useExerciseStore.getState().clearExercise();
-      fetchExercise();
+      fetchExercise(setIsLoading, setExercise);
       
     } catch (error: any) {
       console.error("Failed to submit exercise", error);
@@ -127,9 +94,7 @@ const Submission = () => {
     }
   };
 
-  const isMobileDevice = () => {
-    return /Android|webOS|iPhone/i.test(navigator.userAgent);
-  };
+
 
   const openCamera = () => {
     if (isMobileDevice()) {
@@ -174,13 +139,13 @@ const Submission = () => {
             <IconVolume
               className={classes.volumeIcon}
               size={35}
-              onClick={() => readExercise()}
+              onClick={handleReadExercise}
             />
           )}
           <IconPlayerSkipForwardFilled
             className={classes.skipIcon}
             size={30}
-            onClick={skipExercise}
+            onClick={handleSkipExercise}
             role="button"
             aria-label="skip-button"
           />
@@ -216,12 +181,14 @@ const Submission = () => {
         <div>
         {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
             uploadedImage ? (
-                // <p>{"Our Score: " + Math.ceil(score * 100)}</p> */
-                <label>
-                  {score >= 0.7 ? "Amazing job! Your handwriting is fantastic!⭐ " :
-                   score >= 0.4 ? "Good effort! Keep practicing to get even better!👍" :
-                   "Keep practicing, you'll get there! 💪"}
-                </label>
+                <section className={classes.feedbackContainer}>
+                  <label>
+                    {score >= 0.7 ? "Amazing job! Your handwriting is fantastic!⭐ " :
+                     score >= 0.4 ? "Good effort! Keep practicing to get even better!👍" :
+                     "Keep practicing, you'll get there! 💪"}
+                  </label>
+                  {letterFeedback && <label>{letterFeedback}</label>}
+                </section>
             ) : (
               <label>Grab a sheet of plain paper and start writing :)</label>
             )}

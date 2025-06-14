@@ -63,6 +63,12 @@
   margin-top: 1.5rem;
 }
 
+.feedbackContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .submission .skipIcon:hover {
   scale: 1.15;
   transition: all 0.5s ease;
