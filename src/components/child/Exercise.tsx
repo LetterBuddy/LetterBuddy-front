@@ -213,11 +213,9 @@ const Submission = () => {
           </section>
         </div>
         {/* Image Preview */}
-        {isSubmissionLoading ? (
-          <ClipLoader loading={isSubmissionLoading} className={classes.clipLoader} />
-        ) : (
-          <div>
-            {uploadedImage ? (
+        <div>
+        {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
+            uploadedImage ? (
               <div>
               <Label>
                 {"Submitted text: " + submittedText +
@@ -237,7 +235,6 @@ const Submission = () => {
             <p>Grab a sheet of plain paper and start writing :)</p>
           )}
         </div>
-        )}
       </section>
     </>
   );
