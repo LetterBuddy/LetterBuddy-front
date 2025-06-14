@@ -9,6 +9,7 @@ interface SubmissionModalProps {
   isLoading: boolean;
   imageUrl: string;
   feedback: string;
+  letters: Array<{ letter: string; score: number }>;
 }
 
 const SubmissionModal = ({
@@ -17,6 +18,7 @@ const SubmissionModal = ({
   isLoading,
   imageUrl,
   feedback,
+  letters,
 }: SubmissionModalProps) => {
   if (!isOpen) return null;
 
@@ -32,8 +34,20 @@ const SubmissionModal = ({
             src={imageUrl}
             alt="Submission"
           />
-          {feedback && <Label>Our Feedback</Label>}
-          <label data-testid="submission-feedback">{feedback}</label>
+          {feedback &&
+            <>
+              <Label>Our Feedback</Label>
+              <label data-testid="submission-feedback">{feedback}</label>
+              <Label>Score Per Letter</Label>
+              <div className={classes.lettersContainer}>
+                {letters.map(({ letter, score }) => (
+                  <div key={letter}>
+                    {letter}: {score}
+                  </div>
+                ))}
+              </div>
+            </>
+          }
         </div>
       )}
     </Modal>

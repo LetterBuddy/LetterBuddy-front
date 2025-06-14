@@ -25,6 +25,7 @@ const SubmissionsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [submissionImageUrl, setSubmissionImageUrl] = useState("");
   const [submissionFeedback, setSubmissionFeedback] = useState("");
+  const [submissionLetters, setSubmissionLetters] = useState<Array<{ letter: string; score: number }>>([]);
   const childId = useChildStore.getState().selectedChildId;
   const [sortConfig, setSortConfig] = useState<{
     key: keyof HandwritingSubmission | null;
@@ -93,6 +94,13 @@ const SubmissionsTable = () => {
       console.log(response.data);
       setSubmissionImageUrl(response.data.submitted_image);
       setSubmissionFeedback(response.data.feedback);
+      const letterScoresDict: Array<{ letter: string; score: number }> = [];
+      const text = response.data.requested_text;
+      const scores = response.data.letter_scores;
+      for (let i = 0; i < text.length; i++) {
+        letterScoresDict.push({ letter: text[i], score: scores[i] });
+      }
+      setSubmissionLetters(letterScoresDict);
     } catch (error: any) {
       console.error(
         "Failed to fetch submission",
@@ -138,6 +146,7 @@ const SubmissionsTable = () => {
         isLoading={isSubmissionLoading}
         imageUrl={submissionImageUrl}
         feedback={submissionFeedback}
+        letters={submissionLetters}
       />
     </div>
   );
