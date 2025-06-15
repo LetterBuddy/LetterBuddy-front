@@ -29,7 +29,7 @@ const Submission = () => {
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (!hasFetched.current && requested_text === "") {
+    if (!hasFetched.current && level === "") {
       hasFetched.current = true;
       fetchExercise(setIsLoading, setExercise);
     }
