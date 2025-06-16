@@ -6,7 +6,7 @@ export const getLetterFeedback = (letter_scores: number[], submittedText: string
   
   // compare each letter between submitted and requested text
   for (let i = 0; i < Math.min(submittedText.length, requestedText.length); i++) {
-    if (submittedText[i] !== requestedText[i] || letter_scores[i] < 0.7) {
+    if (submittedText[i] !== requestedText[i] || letter_scores[i] < 0.75) {
       if (!differentLetters.includes(requestedText[i])) {
         differentLetters.push(requestedText[i]);
       }

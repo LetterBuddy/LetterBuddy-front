@@ -38,7 +38,7 @@ const SubmissionModal = ({
             <>
               <Label>Our Feedback</Label>
               <label data-testid="submission-feedback">{feedback}</label>
-              <Label>Score Per Letter</Label>
+              {letters.length > 0 && <Label>Score Per Letter</Label>}
               <div className={classes.lettersContainer}>
                 {letters.map(({ letter, score }) => (
                   <div key={letter}>

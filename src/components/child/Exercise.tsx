@@ -69,8 +69,8 @@ const Submission = () => {
       setUploadedImage(response.data.submitted_image);
       setScore(response.data.score);
       
-      // Generate letter feedback if score is below 0.7
-      if (response.data.score < 0.7) {
+      // Generate letter feedback if score is below 0.75
+      if (response.data.score < 0.75) {
         const feedback = getLetterFeedback(response.data.letter_scores, response.data.submitted_text, response.data.requested_text);
         setLetterFeedback(feedback);
       } else {
@@ -183,7 +183,7 @@ const Submission = () => {
             uploadedImage ? (
                 <section className={classes.feedbackContainer}>
                   <label>
-                    {score >= 0.7 ? "Amazing job! Your handwriting is fantastic!⭐ " :
+                    {score >= 0.75 ? "Amazing job! Your handwriting is fantastic!⭐ " :
                      score >= 0.4 ? "Good effort! Keep practicing to get even better!👍" :
                      "Keep practicing, you'll get there! 💪"}
                   </label>
