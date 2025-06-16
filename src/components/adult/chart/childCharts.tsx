@@ -63,89 +63,98 @@ const ChildCharts = () => {
 
     return (
         <div className={classes.childCharts}>
-            <Label>Progress By Letter</Label>
-            {isLoading ? <ClipLoader className={classes.clipLoader} /> :
-                letterStats.length === 0 ? <Label>No Letters Info...</Label> :
-                    <ResponsiveContainer className={classes.chartContainer}>
-                        <BarChart
-                            data={letterStats}
-                        >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="letter" />
-                            <YAxis />
-                            <Tooltip />
-                            <Bar
-                                fill="#2A004E"
-                                dataKey="avg_score"
-                                radius={[4, 4, 0, 0]}
-                            />
-                        </BarChart>
-                    </ResponsiveContainer>}
-            <Label>Daily Progression</Label>
-            {isLoading ? <ClipLoader className={classes.clipLoader} /> :
-                dailyStats.length === 0 ? <Label>No Daily Progress...</Label> :
-                    <ResponsiveContainer className={classes.chartContainer}>
-                        <LineChart data={dailyStats}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="day" />
-                        <YAxis />
-                        <Tooltip
-                        labelFormatter={(label, payload) => {
-                            const exerciseCount = payload[0]?.payload?.exercise_count;
-                            return `Date: ${label} (Exercised ${exerciseCount} Exercises)`;
-                        }}
-                        />
-                        <Line
-                            type="monotone"
-                            dataKey="avg_score"
-                            stroke="#2A004E"
-                        />
-                        </LineChart>
-                    </ResponsiveContainer>}
-            <Label>Often Confused Letters</Label>
-            {isLoading ? <ClipLoader className={classes.clipLoader} /> :
-                confusedLetters.length === 0 ? (
-                    <Label>No Confused Letters...</Label>
-                ) : (
-                    <ResponsiveContainer className={classes.chartContainer}>
-                        <BarChart data={confusedLetters}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis type="category"
-                            dataKey={(entry) => `${entry.letter} was confused with ${entry.confused_with}`}/>
-                            <YAxis />
-                            <Tooltip
-                               formatter={(value, _, entry) => {
-                                    const times = entry?.payload?.times;
-                                    return [
-                                        `Confusion Percentage: ${value} (Confused ${times} times)`,
-                                    ];
-                                }}/>
-                            <Bar
-                                fill="#2A004E"
-                                dataKey="confusion_percentage"
-                                radius={[4, 4, 0, 0]}
-                            />
-                        </BarChart>
-                    </ResponsiveContainer>
-                )}            
-            <Label>Progress By Level</Label>
-            {isLoading ? <ClipLoader className={classes.clipLoader} /> :
-                levelStats.length === 0 ? (
-                    <Label>No Level Info...</Label>
-                ) : (
-                    <ResponsiveContainer className={classes.chartContainer}>
-                        <BarChart data={levelStats}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="level" />
-                        <YAxis />
-                        <Tooltip />
-                        <Bar
-                            fill="#2A004E"
-                            dataKey="avg_score"
-                            radius={[4, 4, 0, 0]}
-                        />
-                    </BarChart>
-                </ResponsiveContainer>
+            {isLoading && <ClipLoader className={classes.clipLoader} />}
+            {!isLoading && letterStats.length === 0 && dailyStats.length === 0 && 
+             confusedLetters.length === 0 && levelStats.length === 0 && (
+                <Label>No Data Available...</Label>
+            )}
+            {!isLoading && (
+                <>
+                    {letterStats.length > 0 && (
+                        <>
+                            <Label>Progress By Letter</Label>
+                            <ResponsiveContainer className={classes.chartContainer}>
+                                <BarChart data={letterStats}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="letter" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar
+                                        fill="#2A004E"
+                                        dataKey="avg_score"
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </>
+                    )}
+                    {dailyStats.length > 0 && (
+                        <>
+                            <Label>Daily Progression</Label>
+                            <ResponsiveContainer className={classes.chartContainer}>
+                                <LineChart data={dailyStats}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="day" />
+                                    <YAxis />
+                                    <Tooltip
+                                        labelFormatter={(label, payload) => {
+                                            const exerciseCount = payload[0]?.payload?.exercise_count;
+                                            return `Date: ${label} (Exercised ${exerciseCount} Exercises)`;
+                                        }}
+                                    />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="avg_score"
+                                        stroke="#2A004E"
+                                    />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </>
+                    )}
+                    {confusedLetters.length > 0 && (
+                        <>
+                            <Label>Often Confused Letters</Label>
+                            <ResponsiveContainer className={classes.chartContainer}>
+                                <BarChart data={confusedLetters}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis type="category"
+                                        dataKey={(entry) => `${entry.letter} was confused with ${entry.confused_with}`}/>
+                                    <YAxis />
+                                    <Tooltip
+                                        formatter={(value, _, entry) => {
+                                            const times = entry?.payload?.times;
+                                            return [
+                                                `Confusion Percentage: ${value} (Confused ${times} times)`,
+                                            ];
+                                        }}/>
+                                    <Bar
+                                        fill="#2A004E"
+                                        dataKey="confusion_percentage"
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </>
+                    )}
+                    {levelStats.length > 0 && (
+                        <>
+                            <Label>Progress By Level</Label>
+                            <ResponsiveContainer className={classes.chartContainer}>
+                                <BarChart data={levelStats}>
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="level" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Bar
+                                        fill="#2A004E"
+                                        dataKey="avg_score"
+                                        radius={[4, 4, 0, 0]}
+                                    />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </>
+                    )}
+                </>
             )}
         </div>
     );
