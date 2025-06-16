@@ -10,6 +10,7 @@ interface SubmissionModalProps {
   imageUrl: string;
   feedback: string;
   letters: Array<{ letter: string; score: number }>;
+  level: "letters" | "words" | "category";
 }
 
 const SubmissionModal = ({
@@ -19,6 +20,7 @@ const SubmissionModal = ({
   imageUrl,
   feedback,
   letters,
+  level
 }: SubmissionModalProps) => {
   if (!isOpen) return null;
 
@@ -36,12 +38,22 @@ const SubmissionModal = ({
           />
           {feedback &&
             <>
-              <Label>Our Feedback</Label>
+              <Label>LetterBuddy's Feedback</Label>  
               <label data-testid="submission-feedback">{feedback}</label>
               {letters.length > 0 && <Label>Score Per Letter</Label>}
+              {(level === "category" && letters.length === 0) && (
+                <div>
+                  LetterBuddy could not connect the written to a word in the requested category.
+                </div>
+              )}
+              {level === "category" && letters.length > 0 && (
+                <div>
+                  LetterBuddy connected the written to the word "{letters.map(({ letter }) => letter).join("")}" in the requested category.
+                </div>
+              )}
               <div className={classes.lettersContainer}>
-                {letters.map(({ letter, score }) => (
-                  <div key={letter}>
+                {letters.map(({ letter, score }, index) => (
+                  <div key={index}>
                     {letter}: {score}
                   </div>
                 ))}

@@ -26,6 +26,8 @@ const SubmissionsTable = () => {
   const [submissionImageUrl, setSubmissionImageUrl] = useState("");
   const [submissionFeedback, setSubmissionFeedback] = useState("");
   const [submissionLetters, setSubmissionLetters] = useState<Array<{ letter: string; score: number }>>([]);
+  const [level, setLevel] = useState("");
+
   const childId = useChildStore.getState().selectedChildId;
   const [sortConfig, setSortConfig] = useState<{
     key: keyof HandwritingSubmission | null;
@@ -94,11 +96,12 @@ const SubmissionsTable = () => {
       console.log(response.data);
       setSubmissionImageUrl(response.data.submitted_image);
       setSubmissionFeedback(response.data.feedback);
+      setLevel(response.data.level);
       const letterScoresDict: Array<{ letter: string; score: number }> = [];
       const text = response.data.requested_text;
       const scores = response.data.letter_scores;
       for (let i = 0; i < text.length; i++) {
-        letterScoresDict.push({ letter: text[i], score: scores[i] });
+        letterScoresDict.push({ letter: text[i], score: scores[i] * 100 });
       }
       setSubmissionLetters(letterScoresDict);
     } catch (error: any) {
@@ -147,6 +150,7 @@ const SubmissionsTable = () => {
         imageUrl={submissionImageUrl}
         feedback={submissionFeedback}
         letters={submissionLetters}
+        level={level as "letters" | "words" | "category"}
       />
     </div>
   );
