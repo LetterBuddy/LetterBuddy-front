@@ -1,21 +1,24 @@
 import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
 
-export const getLetterFeedback = (letter_scores: number[], submittedText: string, requestedText: string) => {
-  const differentLetters: string[] = [];
-  
-  // compare each letter between submitted and requested text
-  for (let i = 0; i < Math.min(submittedText.length, requestedText.length); i++) {
-    if (submittedText[i] !== requestedText[i] || letter_scores[i] < 0.75) {
-      if (!differentLetters.includes(requestedText[i])) {
-        differentLetters.push(requestedText[i]);
-      }
+export const getLetterFeedback = (letter_errors: number[],  requestedText: string) => {
+  const errorMap: Record<string, number> = {};
+
+  for (let i = 0; i < requestedText.length; i++) {
+    const letter = requestedText[i];
+    const error = letter_errors[i];
+    if(error <= 0.25) continue; 
+    if (!errorMap[letter] || errorMap[letter] < error) {
+      errorMap[letter] = error
     }
   }
-  
-  // take max 3 different letters
-  const lettersToImprove = differentLetters.slice(0, 3);
-  
+
+  // Sort letters by descending error score and take top 3
+  const lettersToImprove = Object.entries(errorMap)
+    .sort(([, aError], [, bError]) => bError - aError)
+    .slice(0, 3)
+    .map(([letter]) => letter);
+
   if (lettersToImprove.length === 0) return "";
   
   const letterList = lettersToImprove

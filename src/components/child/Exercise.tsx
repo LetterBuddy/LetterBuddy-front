@@ -71,7 +71,7 @@ const Submission = () => {
       
       // Generate letter feedback if score is below 0.75
       if (response.data.score < 0.75) {
-        const feedback = getLetterFeedback(response.data.letter_scores, response.data.submitted_text, response.data.requested_text);
+        const feedback = getLetterFeedback(response.data.letter_scores, response.data.requested_text);
         setLetterFeedback(feedback);
       } else {
         setLetterFeedback("");
