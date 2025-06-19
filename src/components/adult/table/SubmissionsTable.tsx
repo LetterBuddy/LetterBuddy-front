@@ -42,7 +42,6 @@ const SubmissionsTable = () => {
         const response = await axiosAPI.get(
           `/exercises/${childId}/submissions/`
         );
-        console.log(response.data);
         // convert score to percentage
         response.data.forEach((submission: HandwritingSubmission) => {
           submission.score = Math.ceil(submission.score * 100);

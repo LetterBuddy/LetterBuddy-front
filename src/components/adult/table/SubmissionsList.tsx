@@ -49,9 +49,16 @@ const SortableHeader = ({
   </button>
 )
 const paginationButtonsStyle = {
-  width: "6rem",
+  width: "4rem",
   height: "2.5rem",
-  fontSize: "0.9rem",
+  fontSize: "0.8rem",
+  margin: "0.25rem",
+};
+
+const viewButtonStyle = {
+  width: "4rem",
+  height: "2rem",
+  fontSize: "0.8rem",
   margin: "0.5rem",
 };
 
@@ -130,12 +137,7 @@ const SubmissionsList = ({
                   <td style={{ padding: "0" }}>
                     <Button
                       data-testid={`view-submission-button-${submission.id}`}
-                      style={{
-                        width: "4rem",
-                        height: "2rem",
-                        fontSize: "0.9rem",
-                        margin: "0.5rem",
-                      }}
+                      style={viewButtonStyle}
                       onClick={() => handleViewSubmission(submission.id)}
                     >
                       View

@@ -17,3 +17,12 @@
   flex-direction: row;
   gap: 1rem;
 }
+
+@media (max-width: 768px) {
+  .img {
+    max-height: 15rem;
+    max-width: 20rem;
+  }
+}
+    
+  

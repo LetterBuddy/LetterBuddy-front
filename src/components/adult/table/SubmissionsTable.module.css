@@ -100,14 +100,14 @@
   @media (max-width: 576px) {
     .table td{
       font-size: 0.8rem;
-      padding: 2rem 0.5rem;
+      padding: 1rem 0.5rem;
     }
     .table th{
       font-size: 0.8rem;
       padding: 0.2rem;
     }
     .table{
-      max-width: 25rem;
+      max-width: 20rem;
     }
     .sortButton {
       font-size: 0.8rem;
