@@ -43,7 +43,6 @@ const Login = () => {
       const response = await axiosAPI.post("/accounts/login/", data);
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
-      // TODO maybe move possible roles to a utils file
       const isLoggedUserChild = response.data.role === "CHILD";
       userLogin(
         response.data.first_name,
