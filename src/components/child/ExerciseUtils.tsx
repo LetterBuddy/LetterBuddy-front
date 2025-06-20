@@ -25,7 +25,7 @@ export const getLetterFeedback = (letter_errors: number[],  requestedText: strin
     .map(letter => `'${letter}'`)
     .join(", ");
   
-  return `Try working on letters: ${letterList}`;
+  return `Try working on the letters: ${letterList}`;
 };
 
 export const readExercise = (level: string, requested_text: string, category: string | null) => {

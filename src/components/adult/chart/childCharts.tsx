@@ -124,7 +124,7 @@ const ChildCharts = () => {
                                         formatter={(value, _, entry) => {
                                             const times = entry?.payload?.times;
                                             return [
-                                                `Confusion Percentage: ${value} (Confused ${times} times)`,
+                                                `Confusion Percentage: ${value}% (Confused ${times} times)`,
                                             ];
                                         }}/>
                                     <Bar
