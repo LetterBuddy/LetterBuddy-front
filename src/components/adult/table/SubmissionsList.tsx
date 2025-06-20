@@ -2,7 +2,6 @@ import { format } from "date-fns";
 import Button from "../../ui/button/Button";
 import Label from '../../ui/label/Label'
 import classes from "./SubmissionsTable.module.css";
-import { useState } from "react";
 import { HandwritingSubmission } from "./SubmissionsTable";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -15,6 +14,8 @@ type SubmissionsListProps = {
     direction: "asc" | "desc";
   };
   isTableLoading: boolean;
+  currentPage: number;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const getScoreBadgeClass = (score: number) => {
@@ -67,9 +68,10 @@ const SubmissionsList = ({
   handleSort,
   handleViewSubmission,
   sortConfig,
-  isTableLoading
+  isTableLoading,
+  currentPage,
+  setCurrentPage,
 }: SubmissionsListProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const paginatedData = sortedData.slice(
     (currentPage - 1) * itemsPerPage,

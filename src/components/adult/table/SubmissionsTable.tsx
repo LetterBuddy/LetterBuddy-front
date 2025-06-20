@@ -27,12 +27,17 @@ const SubmissionsTable = () => {
   const [submissionFeedback, setSubmissionFeedback] = useState("");
   const [submissionLetters, setSubmissionLetters] = useState<Array<{ letter: string; score: number }>>([]);
   const [level, setLevel] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   const childId = useChildStore.getState().selectedChildId;
   const [sortConfig, setSortConfig] = useState<{
     key: keyof HandwritingSubmission | null;
     direction: "asc" | "desc";
   }>({ key: "submission_date", direction: "desc" });
+
+  useEffect(() => {
+  setCurrentPage(1);
+  }, [searchTerm]);
 
   useEffect(() => {
     const fetchSubmissions = async () => {
@@ -67,8 +72,12 @@ const SubmissionsTable = () => {
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig.key) return 0;
-    const aValue = a[sortConfig.key];
-    const bValue = b[sortConfig.key];
+    let aValue = a[sortConfig.key];
+    let bValue = b[sortConfig.key];
+    if (typeof aValue === "string" && typeof bValue === "string") {
+      aValue = aValue.toLowerCase();
+      bValue = bValue.toLowerCase();
+    }
     return sortConfig.direction === "asc"
       ? aValue < bValue
         ? -1
@@ -141,6 +150,8 @@ const SubmissionsTable = () => {
         handleViewSubmission={handleOpenModal}
         sortConfig={sortConfig}
         isTableLoading={isTableLoading}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
       <SubmissionModal
         isOpen={isModalOpen}
