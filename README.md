@@ -5,15 +5,22 @@
 #### Clone the Repository
 Run the following command in your terminal to clone the repository:
 
-`git clone https://github.com/LetterBuddy/LetterBuddy-front.git`
+
+```bash
+git clone https://github.com/LetterBuddy/LetterBuddy-front.git
+```
 
 ### Install Dependencies:
 
-` npm install`
+```bash 
+npm install
+```
 
 ### Run the App:
 
-` npm run dev`
+```bash 
+npm run dev
+```
 
 ## Existing users examples:
 ### Adult
@@ -28,7 +35,10 @@ Run the following command in your terminal to clone the repository:
 ## How to run the tests on terminal:
 ### E2E tests:
 1. The server and frontend should be running.
-2. write 'npx cypress open' 
+2.
+```bash
+npx cypress open
+```
 3. click on 'E2E Testing' -> choose a browser -> choose the test flow
 
 ### Unit tests: 
