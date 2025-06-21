@@ -109,7 +109,7 @@ const SubmissionsTable = () => {
       const text = response.data.requested_text;
       const scores = response.data.letter_scores;
       for (let i = 0; i < text.length; i++) {
-        letterScoresDict.push({ letter: text[i], score: scores[i] * 100 });
+        letterScoresDict.push({ letter: text[i], score: Math.ceil(scores[i] * 100)});
       }
       setSubmissionLetters(letterScoresDict);
     } catch (error: any) {
