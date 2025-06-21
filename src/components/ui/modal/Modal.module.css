@@ -64,3 +64,19 @@
     min-width: 20rem;
   }
 }
+
+@media (max-width: 768px) {
+  .modal {
+    padding: 0.5rem;
+  }
+  .modal label,
+  .modal input,
+  .modal button {
+    margin-bottom: 0.3rem;
+  }
+  .closeButton {
+    top: 0.5rem;
+    right: 1rem;
+  }
+}
+
