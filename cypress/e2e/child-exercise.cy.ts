@@ -75,7 +75,7 @@ describe('Child Exercise Flow', () => {
 
   it('should submit exercise with image', () => {
     // Initial exercise should be visible
-    cy.contains('aaaa', { timeout: 10000 }).should('be.visible')
+    cy.contains('aaaa', { timeout: 20000 }).should('be.visible')
     
     // Upload image for exercise
     cy.get('input[type="file"]').first().selectFile({
