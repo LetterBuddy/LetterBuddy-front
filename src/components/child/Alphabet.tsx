@@ -6,8 +6,8 @@ import classes from './Alphabet.module.css';
 const lowerGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/lower/*.gif');
 const lowerPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/lower/*.png');
 
-// const upperGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/upper/*.gif');
-// const upperPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/upper/*.png');
+const upperGifs = import.meta.glob<{ default: string }>('../../assets/EnglishGIFs/upper/*.gif');
+const upperPngs = import.meta.glob<{ default: string }>('../../assets/EnglishImgs/upper/*.png');
 
 
 const Alphabet = () => {
@@ -32,6 +32,18 @@ const Alphabet = () => {
         pngsLoaded[name] = mod.default;
       }
 
+      for (const path in upperGifs) {
+        const mod = await upperGifs[path]();
+        const name = path.split('/').pop()?.replace('.gif', '') || '';
+        gifsLoaded[name] = mod.default;
+      }
+      
+      for (const path in upperPngs) {
+        const mod = await upperPngs[path]();
+        const name = path.split('/').pop()?.replace('.png', '') || '';
+        pngsLoaded[name] = mod.default;
+      }
+      
       setGifMap(gifsLoaded);
       setPngMap(pngsLoaded);
     };
