@@ -16,36 +16,30 @@ const Alphabet = () => {
   const [active, setActive] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    const loadAssets = async (
+      globMap: Record<string, () => Promise<{ default: string }>>,
+      ext: string
+    ): Promise<Record<string, string>> => {
+      const entries = await Promise.all(
+        Object.entries(globMap).map(async ([path, loader]) => {
+          const mod = await loader();
+          const name = path.split('/').pop()?.replace(`.${ext}`, '') || '';
+          return [name, mod.default];
+        })
+      );
+      return Object.fromEntries(entries);
+    };
+
     const loadFiles = async () => {
-      const gifsLoaded: Record<string, string> = {};
-      const pngsLoaded: Record<string, string> = {};
+      const [loadedLowerGifs, loadedLowerPngs, loadedUpperGifs, loadedUpperPngs] = await Promise.all([
+        loadAssets(lowerGifs, 'gif'),
+        loadAssets(lowerPngs, 'png'),
+        loadAssets(upperGifs, 'gif'),
+        loadAssets(upperPngs, 'png'),
+      ]);
 
-      for (const path in lowerGifs) {
-        const mod = await lowerGifs[path]();
-        const name = path.split('/').pop()?.replace('.gif', '') || '';
-        gifsLoaded[name] = mod.default;
-      }
-
-      for (const path in lowerPngs) {
-        const mod = await lowerPngs[path]();
-        const name = path.split('/').pop()?.replace('.png', '') || '';
-        pngsLoaded[name] = mod.default;
-      }
-
-      for (const path in upperGifs) {
-        const mod = await upperGifs[path]();
-        const name = path.split('/').pop()?.replace('.gif', '') || '';
-        gifsLoaded[name] = mod.default;
-      }
-      
-      for (const path in upperPngs) {
-        const mod = await upperPngs[path]();
-        const name = path.split('/').pop()?.replace('.png', '') || '';
-        pngsLoaded[name] = mod.default;
-      }
-      
-      setGifMap(gifsLoaded);
-      setPngMap(pngsLoaded);
+      setGifMap({ ...loadedLowerGifs, ...loadedUpperGifs });
+      setPngMap({ ...loadedLowerPngs, ...loadedUpperPngs });
     };
 
     loadFiles();
