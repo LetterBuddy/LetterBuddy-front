@@ -76,3 +76,53 @@ export const skipExercise = async (setIsLoading: (loading: boolean) => void) => 
 export const isMobileDevice = () => {
   return /Android|webOS|iPhone/i.test(navigator.userAgent);
 };
+
+export const compressImg = (
+  event: React.ChangeEvent<HTMLInputElement>
+): Promise<string | null> => {
+  return new Promise((resolve) => {
+    const file = event.target.files?.[0];
+    if (!file) return resolve(null);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Resize keeping aspect ratio
+        const MAX_WIDTH = 600;
+        const scale = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scale;
+
+        ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        const compressedImg = canvas.toDataURL("image/jpeg", 0.7);
+        resolve(compressedImg);
+      };
+      if (e.target?.result) {
+        img.src = e.target.result as string;
+      } else {
+        resolve(null);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
+export const base64ToFile = (base64: string, filename: string): File => {
+  const arr = base64.split(',');
+  const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/jpeg';
+  const bstr = atob(arr[1]);
+  let n = bstr.length;
+  const u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, { type: mime });
+};

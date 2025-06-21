@@ -13,7 +13,7 @@ import axiosAPI from "../../axiosAPI";
 import useExerciseStore from "../../store/useExerciseStore";
 import ClipLoader from "react-spinners/ClipLoader";
 import myPen from '../../assets/myPen.gif';
-import { getLetterFeedback, readExercise, fetchExercise, skipExercise, isMobileDevice } from './ExerciseUtils';
+import { getLetterFeedback, readExercise, fetchExercise, skipExercise, isMobileDevice, compressImg, base64ToFile } from './ExerciseUtils';
 const buttonsStyle = { width: "9rem", height: "3rem", fontSize: "1rem" };
 
 const Submission = () => {
@@ -87,14 +87,14 @@ const Submission = () => {
     }
   }
 
-  const handleFileChange = (event: any) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      submitExercise(file);
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const compressedImg = await compressImg(event);
+    const originalFile = event.target.files?.[0];
+    if (originalFile && compressedImg) {
+      const compressedFile = base64ToFile(compressedImg, originalFile.name);
+      submitExercise(compressedFile);
     }
   };
-
-
 
   const openCamera = () => {
     if (isMobileDevice()) {
@@ -177,7 +177,6 @@ const Submission = () => {
             </Button>
           </section>
         </div>
-        {/* Image Preview */}
         <div>
         {isSubmissionLoading ? <img src={myPen} alt="myPen" style={{ width: '100px', height: '110px' }} /> :
             uploadedImage ? (
