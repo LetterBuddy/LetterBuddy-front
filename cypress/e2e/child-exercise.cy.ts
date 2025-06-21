@@ -77,12 +77,14 @@ describe('Child Exercise Flow', () => {
     // Initial exercise should be visible
     cy.contains('aaaa', { timeout: 20000 }).should('be.visible')
     
-    // Upload image for exercise
+    const base64Image = 
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg=='; // 1x1 transparent PNG
+  
     cy.get('input[type="file"]').first().selectFile({
-      contents: Cypress.Buffer.from('fake image data'),
-      fileName: 'test.png',
+      contents: Cypress.Buffer.from(base64Image, 'base64'),
+      fileName: 'tiny.png',
       mimeType: 'image/png'
-    }, { force: true })
+    }, { force: true });
     
     // Wait for submission and verify response
     cy.wait('@submitExercise')
