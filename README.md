@@ -1,6 +1,6 @@
 # LetterBuddy Frontend
 
-### 🚀 Getting started
+### Getting started
 
 #### Clone the Repository
 Run the following command in your terminal to clone the repository:
@@ -24,15 +24,14 @@ npm run dev
 
 ## Existing users examples:
 ### Adult
-- User Name: string
-- Password: string1234
-- child account with a handwriting submission to view: erez
+- User Name: sharon
+- Password: sharon1234
 
-### Child
-- User Name: string3
-- Password: string1234
+### Children
+- User Name: child1 or child2, or child3 (all of which have the same password)
+- Password: child1234
 
-## How to run the tests on terminal:
+## How to run the tests on the terminal:
 ### E2E tests:
 1. The server and frontend should be running.
 2.
@@ -42,8 +41,8 @@ npx cypress open
 3. click on 'E2E Testing' -> choose a browser -> choose the test flow
 
 ### Unit tests: 
-1. write 'npx vitest' in order to run all the unit tests 
-2. write 'npx vitest run <testName>' in order to run a specific unit test 
+1. Write 'npx vitest' to run all the unit tests 
+2. Write 'npx vitest run <testName>' to run a specific unit test 
 
 ## The frontend has also been deployed on Render:
 https://letterbuddy-front.onrender.com \
