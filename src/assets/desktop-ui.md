@@ -2,27 +2,26 @@
 
 ## Splash Flow
 
-![Splash Screen](/src/assets/Ui-Screenshots/Desktop/splash.png)
+![Splash Screen](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/splash.png)
 
 ## Child
 
-![Child1](/src/assets/Ui-Screenshots/Desktop/child1.png)
+![Child1](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/child1.png)
 
-![Child2](/src/assets/Ui-Screenshots/Desktop/child2.png)
+![Child2](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/child2.png)
 
-![Child3](/src/assets/Ui-Screenshots/Desktop/child3.png)
+![Child3](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/child3.png)
 
-![Child4](/src/assets/Ui-Screenshots/Desktop/child4.png)
+![Child4](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/child4.png)
 
 ## Adult
 
-![Adult1](/src/assets/Ui-Screenshots/Desktop/adult1.png)
+![Adult1](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/adult1.png)
 
-![Adult2](/src/assets/Ui-Screenshots/Desktop/adult2.png)
+![Adult2](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/adult2.png)
 
-![Adult3](/src/assets/Ui-Screenshots/Desktop/adult3.png)
+![Adult3](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/adult3.png)
 
-![Adult4](/src/assets/Ui-Screenshots/Desktop/adult4.png)
+![Adult4](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/adult4.png)
 
-![Adult5](/src/assets/Ui-Screenshots/Desktop/adult5.png)
-
+![Adult5](https://raw.githubusercontent.com/LetterBuddy/LetterBuddy-front/ErezLavi-patch-1/src/assets/UI-Screenshots/Desktop/adult5.png)
